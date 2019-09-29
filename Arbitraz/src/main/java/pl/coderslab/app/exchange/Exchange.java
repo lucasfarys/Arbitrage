@@ -38,7 +38,6 @@ public class Exchange {
         for (Map.Entry<String, String> coin : coins.entrySet()) {
             final String nameCoin = coin.getValue();
             valueCoins.put(nameCoin, getJsonPriceBitbay(nameCoin,url));
-
         }
         return valueCoins;
     }

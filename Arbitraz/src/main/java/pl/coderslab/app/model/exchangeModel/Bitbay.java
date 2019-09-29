@@ -1,9 +1,6 @@
 package pl.coderslab.app.model.exchangeModel;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.util.Objects;
 
 @Entity
 @Table(name = "bitbay")
@@ -13,8 +10,8 @@ public class Bitbay {
     private Long id;
     private Double bidBTCPLN;
     private Double askBTCPLN;
-    private Double bidBTCETH;
-    private Double askBTCETH;
+    private Double bidETHBTC;
+    private Double askETHBTC;
     private Double bidETHPLN;
     private Double askETHPLN;
 
@@ -43,19 +40,19 @@ public class Bitbay {
     }
 
     public Double getBidBTCETH() {
-        return bidBTCETH;
+        return bidETHBTC;
     }
 
     public void setBidBTCETH(Double bidBTCETH) {
-        this.bidBTCETH = bidBTCETH;
+        this.bidETHBTC = bidBTCETH;
     }
 
-    public Double getAskBTCETH() {
-        return askBTCETH;
+    public Double getAskETHBTC() {
+        return askETHBTC;
     }
 
-    public void setAskBTCETH(Double askBTCETH) {
-        this.askBTCETH = askBTCETH;
+    public void setAskETHBTC(Double askETHBTC) {
+        this.askETHBTC = askETHBTC;
     }
 
     public Double getBidETHPLN() {

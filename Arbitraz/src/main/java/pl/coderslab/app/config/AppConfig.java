@@ -10,24 +10,29 @@ import org.springframework.orm.jpa.LocalEntityManagerFactoryBean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.web.servlet.LocaleContextResolver;
+import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import pl.coderslab.app.exchange.Exchange;
 
 import javax.persistence.EntityManagerFactory;
 import javax.validation.Validator;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 @Configuration
-@ComponentScan(basePackages = {"pl.coderslab.app"}, excludeFilters = {@ComponentScan.Filter(
-        type = FilterType.ANNOTATION,
-        value = EnableWebMvc.class
-)
-})
+@ComponentScan(basePackages = "pl.coderslab.app")
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = "pl.coderslab.app.repositories")
 @EnableScheduling
-public class AppConfig {
+@EnableWebMvc
+public class AppConfig extends WebMvcConfigurerAdapter {
 
     @Bean
     public LocalEntityManagerFactoryBean entityManagerFactory() {
@@ -78,4 +83,29 @@ public class AppConfig {
         bittrex.setCoins(coins);
         return bittrex;
     }
+    @Override
+    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+        configurer.enable();
+    }
+
+    @Bean
+    public ViewResolver viewResolver() {
+        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+        resolver.setPrefix("/WEB-INF/views/");
+        resolver.setSuffix(".jsp");
+        return resolver;
+    }
+
+    @Bean
+    public LocaleContextResolver localeResolver() {
+        SessionLocaleResolver localeResolver = new SessionLocaleResolver();
+        localeResolver.setDefaultLocale(new Locale("pl", "PL"));
+        return localeResolver;
+    }
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/resources/**")
+                .addResourceLocations("/resources/");
+    }
+
 }
