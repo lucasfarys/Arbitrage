@@ -1,5 +1,6 @@
 package pl.coderslab.app.web.controllers;
 
+import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,10 +24,12 @@ public class ChartController {
     public String showChart(Model model){
         List<Bitbay> bitbayList = bitbayRepository.findAll();
         List<Double> btcPln = new ArrayList<>();
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("btcPln",btcPln);
         for(Bitbay el: bitbayList){
             btcPln.add(el.getAskBTCPLN());
         }
-        model.addAttribute("btcPln", btcPln);
+        model.addAttribute("btcPln", jsonObject);
         return "chart";
     }
 }

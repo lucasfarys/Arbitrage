@@ -12,9 +12,6 @@
 <head>
     <title>Chart</title>
     <jsp:include page="header.jsp"/>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"/>
-    <link rel="stylesheet" href="${mainUrl}resources/css/css2.css"/>
 </head>
 <body>
     <div class="container">
@@ -27,9 +24,11 @@
                 <%--</c:forEach>--%>
             <%--]--%>
         <%--</script>--%>
-        <script src="${mainUrl}resources/js/lineChart.js" type="text/javascript"></script>
         <canvas id="myChart"></canvas>
     </div>
 </body>
     <jsp:include page="footer.jsp"/>
+    <script src="${mainUrl}resources/js/lineChart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <link rel="stylesheet" href="${mainUrl}resources/css/css2.css"/>
 </html>

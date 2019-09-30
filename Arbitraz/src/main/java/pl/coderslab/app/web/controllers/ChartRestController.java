@@ -1,6 +1,6 @@
 package pl.coderslab.app.web.controllers;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
+import org.json.JSONObject;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,15 +21,16 @@ public class ChartRestController {
     }
 
     @GetMapping
-    public List<Double> showChart(Model model){
+    public String showChart(Model model){
         List<Bitbay> bitbayList = bitbayRepository.findAll();
-//        JSONPObject jsonpObject = new JSONPObject();
-        List<Double> btcPln = new ArrayList<>();
-        for(Bitbay el: bitbayList){
-            btcPln.add(el.getAskBTCPLN());
+        Double[] btcPln = new Double[bitbayList.size()];
+        JSONObject jsonObject = new JSONObject();
+        for(int i=0;i<bitbayList.size();i++){
+            btcPln[i] = bitbayList.get(i).getAskBTCPLN();
         }
-        model.addAttribute("btcPln", btcPln);
-
-        return btcPln;
+        jsonObject.put("btcPln",btcPln);
+        model.addAttribute("btcPln", jsonObject);
+        System.out.println(jsonObject);
+        return jsonObject.toString();
     }
 }
