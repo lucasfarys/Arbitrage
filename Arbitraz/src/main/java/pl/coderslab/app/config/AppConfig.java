@@ -22,9 +22,7 @@ import pl.coderslab.app.exchange.Exchange;
 
 import javax.persistence.EntityManagerFactory;
 import javax.validation.Validator;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 @Configuration
 @ComponentScan(basePackages = "pl.coderslab.app")
@@ -54,22 +52,33 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 
     @Bean
     public Exchange bitbay(){
+        String name = "Bitbay";
+
         Map<String,String> url = new HashMap<>();
         url.put("prefix","https://bitbay.net/API/Public/");
         url.put("suffix","/ticker.json");
 
         Map<String,String> coins = new HashMap<>();
         coins.put("BTCPLN","BTCPLN");
-        coins.put("ETHBTC","ETHBTC");
+        coins.put("BTCETH","ETHBTC");
         coins.put("ETHPLN","ETHPLN");
 
+        List<String> coinsName = new ArrayList<>();
+        coinsName.add("BTCPLN");
+        coinsName.add("BTCETH");
+        coinsName.add("ETHPLN");
+
         Exchange bitbay = new Exchange();
+        bitbay.setName(name);
         bitbay.setUrl(url);
         bitbay.setCoins(coins);
+        bitbay.setCoinsName(coinsName);
         return bitbay;
     }
     @Bean
     public Exchange bittrex(){
+        String name = "Bittrex";
+
         Map<String,String> url = new HashMap<>();
 
         url.put("prefix", "https://api.bittrex.com/api/v1.1/public/getticker?market=");
@@ -78,7 +87,13 @@ public class AppConfig extends WebMvcConfigurerAdapter {
         Map<String,String> coins = new HashMap<>();
         coins.put("BTCETH","BTC-ETH");
 
+        List<String> coinsName = new ArrayList<>();
+        coinsName.add("BTCETH");
+        coinsName.add("BTCEUR");
+        coinsName.add("BTCUSD");
+
         Exchange bittrex = new Exchange();
+        bittrex.setName(name);
         bittrex.setUrl(url);
         bittrex.setCoins(coins);
         return bittrex;

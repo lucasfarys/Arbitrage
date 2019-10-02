@@ -25,15 +25,17 @@ public class BitbayService {
         bitbay.setAskBTCPLN(bitbayDTOMap.get("BTCPLN").getAsk());
         bitbay.setBidBTCPLN(bitbayDTOMap.get("BTCPLN").getBid());
 
-        bitbay.setAskETHBTC(bitbayDTOMap.get("ETHBTC").getAsk());
-        bitbay.setBidBTCETH(bitbayDTOMap.get("ETHBTC").getBid());
+        bitbay.setAskETHBTC(bitbayDTOMap.get("BTCETH").getAsk());
+        bitbay.setBidBTCETH(bitbayDTOMap.get("BTCETH").getBid());
 
         bitbay.setAskETHPLN(bitbayDTOMap.get("ETHPLN").getAsk());
         bitbay.setBidETHPLN(bitbayDTOMap.get("ETHPLN").getBid());
 
+        bitbay.setDate(LocalDateTime.now().toString());
+
         bitbayRepository.save(bitbay);
     }
-    @Scheduled(fixedRate = 100000)
+    @Scheduled(fixedRate = 1000000)
     public void getPrices(){
 
         Map<String, DataBitbayDTO> valueBitbayCoins;

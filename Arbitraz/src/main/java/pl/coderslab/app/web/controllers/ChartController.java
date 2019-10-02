@@ -21,15 +21,5 @@ public class ChartController {
     }
 
     @GetMapping
-    public String showChart(Model model){
-        List<Bitbay> bitbayList = bitbayRepository.findAll();
-        List<Double> btcPln = new ArrayList<>();
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("btcPln",btcPln);
-        for(Bitbay el: bitbayList){
-            btcPln.add(el.getAskBTCPLN());
-        }
-        model.addAttribute("btcPln", jsonObject);
-        return "chart";
-    }
+    public String showChart(Model model){return "chart";}
 }

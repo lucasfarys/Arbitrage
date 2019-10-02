@@ -28,7 +28,7 @@ public class BittrexService {
         bittrexRepository.save(bittrex);
 
     }
-    @Scheduled(fixedRate = 100000)
+    @Scheduled(fixedRate = 1000000)
     public void getPricesBittrex(){
         Map<String, DataBittrexDTO> valueBittrexCoins;
         valueBittrexCoins = exchangeBittrex.getAllPriceBittrex(exchangeBittrex.getUrl(), exchangeBittrex.getCoins());

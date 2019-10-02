@@ -1,14 +1,12 @@
 package pl.coderslab.app.web.controllers;
 
 import org.json.JSONObject;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.coderslab.app.model.exchangeModel.Bitbay;
 import pl.coderslab.app.repositories.BitbayRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -21,16 +19,18 @@ public class ChartRestController {
     }
 
     @GetMapping
-    public String showChart(Model model){
+    public String showChart(){
         List<Bitbay> bitbayList = bitbayRepository.findAll();
+        bitbayList = bitbayList.subList(bitbayList.size()-24,bitbayList.size());
         Double[] btcPln = new Double[bitbayList.size()];
-        JSONObject jsonObject = new JSONObject();
+        String[] btcPlnDate = new String[bitbayList.size()];
+        JSONObject jsonObjectValue = new JSONObject();
         for(int i=0;i<bitbayList.size();i++){
             btcPln[i] = bitbayList.get(i).getAskBTCPLN();
+            btcPlnDate[i] = bitbayList.get(i).getDate().split("T")[1].substring(0,2);
         }
-        jsonObject.put("btcPln",btcPln);
-        model.addAttribute("btcPln", jsonObject);
-        System.out.println(jsonObject);
-        return jsonObject.toString();
+        jsonObjectValue.put("btcPln",btcPln);
+        jsonObjectValue.put("date",btcPlnDate);
+        return jsonObjectValue.toString();
     }
 }

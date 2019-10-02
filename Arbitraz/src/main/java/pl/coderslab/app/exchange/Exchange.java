@@ -10,11 +10,30 @@ import pl.coderslab.app.dto.bittrex.JsonBittrexResult;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Exchange {
     Map<String,String> url;
     Map<String,String> coins;
+    List<String> coinsName;
+    String name;
+
+    public List<String> getCoinsName() {
+        return coinsName;
+    }
+
+    public void setCoinsName(List<String> coinsName) {
+        this.coinsName = coinsName;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public Map<String, String> getUrl() {
         return url;

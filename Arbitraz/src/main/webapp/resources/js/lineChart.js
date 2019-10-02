@@ -12,18 +12,22 @@ document.addEventListener('DOMContentLoaded', function () {
         var data = result.btcPln.sort();
         var min = data[0];
         var max = data[data.length-1];
-        console.log(min);
-        console.log(max);
+        console.log(result.date);
+        var date = [];
+        for(var i=0;i<24;i++){
+            date.push()
+            console.log(date);
+        }
         var chart = new Chart(ctx, {
             // The type of chart we want to create
             type: 'line',
             // The data for our dataset
             data: {
-                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'May', 'May', 'May', 'May', 'May', 'May', 'May', 'May', 'May'],
+                labels: result.date,
                 datasets: [{
                     label: 'BTCPLN',
-                    backgroundColor: 'rgb(255, 99, 132)',
-                    borderColor: 'rgb(0, 99, 132)',
+                    backgroundColor: 'rgb(100, 99, 132)',
+                    borderColor: 'rgb(120, 120, 120)',
                     data: result.btcPln,
                     // data: [0, 10, 5, 2, 20, 30, 10],
                     fill: false

@@ -14,6 +14,23 @@ public class Bitbay {
     private Double askETHBTC;
     private Double bidETHPLN;
     private Double askETHPLN;
+    private String date;
+
+    public Double getBidETHBTC() {
+        return bidETHBTC;
+    }
+
+    public void setBidETHBTC(Double bidETHBTC) {
+        this.bidETHBTC = bidETHBTC;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
 
     public Long getId() {
         return id;
