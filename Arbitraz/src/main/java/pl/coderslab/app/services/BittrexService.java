@@ -1,6 +1,5 @@
 package pl.coderslab.app.services;
 
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.coderslab.app.dto.bittrex.DataBittrexDTO;
@@ -32,11 +31,5 @@ public class BittrexService {
 
         bittrexRepository.save(bittrex);
 
-    }
-    @Scheduled(fixedRate = 3600000)
-    public void getPricesBittrex(){
-        Map<String, DataBittrexDTO> valueBittrexCoins;
-        valueBittrexCoins = exchangeBittrex.getAllPriceBittrex(exchangeBittrex.getUrl(), exchangeBittrex.getCoins());
-        saveDataBittrex(valueBittrexCoins);
     }
 }

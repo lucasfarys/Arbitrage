@@ -35,11 +35,6 @@ public class BitbayService {
 
         bitbayRepository.save(bitbay);
     }
-    @Scheduled(fixedRate = 3600000)
-    public void getPrices(){
-        Map<String, DataBitbayDTO> valueBitbayCoins;
-        valueBitbayCoins = bitbayExchange.getAllPriceBitbay(bitbayExchange.getUrl(), bitbayExchange.getCoins());
-        saveDataBitbay(valueBitbayCoins);
-    }
+
 
 }

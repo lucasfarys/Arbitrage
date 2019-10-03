@@ -3,7 +3,6 @@ package pl.coderslab.app.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.FilterType;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalEntityManagerFactoryBean;
@@ -68,6 +67,12 @@ public class AppConfig extends WebMvcConfigurerAdapter {
         coinsName.add("BTCETH");
         coinsName.add("ETHPLN");
 
+        Double feeProcentMaker = 0.0;
+
+        Map<String, Double> feesWithdrawCoin = new HashMap<>();
+        feesWithdrawCoin.put("ETHBTC", 0.00045);
+//        feesWithdrawCoin.put("")
+
         Exchange bitbay = new Exchange();
         bitbay.setName(name);
         bitbay.setUrl(url);
@@ -91,6 +96,8 @@ public class AppConfig extends WebMvcConfigurerAdapter {
         coinsName.add("BTCETH");
         coinsName.add("BTCPLN");
         coinsName.add("ETHPLN");
+
+        Double feePorcentMaker = 0.25;
 
         Exchange bittrex = new Exchange();
         bittrex.setName(name);

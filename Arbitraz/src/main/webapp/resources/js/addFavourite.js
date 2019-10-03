@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', function () {
     })
     exchangeSecond.addEventListener("change", function (ev) {
         exchange02.value = exchangeSecond.options[exchangeSecond.selectedIndex].text;
-        // console.log(exchange02.value);
     })
     course.addEventListener("change", function (ev) {
         coin.value = course.options[course.selectedIndex].text;
