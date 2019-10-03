@@ -12,7 +12,6 @@ import pl.coderslab.app.model.exchangeModel.Bitbay;
 import pl.coderslab.app.model.exchangeModel.Bittrex;
 import pl.coderslab.app.repositories.BitbayRepository;
 import pl.coderslab.app.repositories.BittrexRepository;
-import pl.coderslab.app.repositories.FavouriteRepository;
 import pl.coderslab.app.services.FavouriteService;
 
 import java.util.ArrayList;
@@ -41,8 +40,7 @@ public class DashboardController {
     public String prepareDashboard(Model model){
         List<Bitbay> bitbayValue = bitbayRepository.findAll();
         List<Bittrex> bittrexValue = bittrexRepository.findAll();
-        model.addAttribute("bitbayValue",bitbayValue);
-        model.addAttribute("bittrexValue",bittrexValue);
+
         return "dashboard";
     }
 
@@ -62,7 +60,7 @@ public class DashboardController {
         coinsName.add("BTCUSD");
         model.addAttribute("exchange",exchanges);
         model.addAttribute("coinsName",coinsName);
-        return "favourite";
+        return "addFavourite";
     }
     @PostMapping("/addfavourite")
     public String addFavourite(@ModelAttribute("exchange01") String exchange01, @ModelAttribute("exchange02") String exchange02,
@@ -74,7 +72,7 @@ public class DashboardController {
         favouriteFormDTO.setExchange_second(exchange02);
         favouriteFormDTO.setLogin(authentication.getName());
         favouriteService.saveFavourite(favouriteFormDTO);
-        return "redirect:/dashboard";
+        return "redirect:/chart";
     }
 
 }

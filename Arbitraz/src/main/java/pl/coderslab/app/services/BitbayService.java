@@ -14,7 +14,6 @@ import java.util.Map;
 public class BitbayService {
     private BitbayRepository bitbayRepository;
     private Exchange bitbayExchange;
-    int i = 0;
     public BitbayService(Exchange bitbay, BitbayRepository bitbayRepository) {
         this.bitbayRepository = bitbayRepository;
         this.bitbayExchange = bitbay;
@@ -22,11 +21,12 @@ public class BitbayService {
 
     public void saveDataBitbay(Map<String,DataBitbayDTO> bitbayDTOMap){
         Bitbay bitbay = new Bitbay();
+
         bitbay.setAskBTCPLN(bitbayDTOMap.get("BTCPLN").getAsk());
         bitbay.setBidBTCPLN(bitbayDTOMap.get("BTCPLN").getBid());
 
-        bitbay.setAskETHBTC(bitbayDTOMap.get("BTCETH").getAsk());
-        bitbay.setBidBTCETH(bitbayDTOMap.get("BTCETH").getBid());
+        bitbay.setAskETHBTC(bitbayDTOMap.get("ETHBTC").getAsk());
+        bitbay.setBidBTCETH(bitbayDTOMap.get("ETHBTC").getBid());
 
         bitbay.setAskETHPLN(bitbayDTOMap.get("ETHPLN").getAsk());
         bitbay.setBidETHPLN(bitbayDTOMap.get("ETHPLN").getBid());
@@ -35,9 +35,8 @@ public class BitbayService {
 
         bitbayRepository.save(bitbay);
     }
-    @Scheduled(fixedRate = 1000000)
+    @Scheduled(fixedRate = 3600000)
     public void getPrices(){
-
         Map<String, DataBitbayDTO> valueBitbayCoins;
         valueBitbayCoins = bitbayExchange.getAllPriceBitbay(bitbayExchange.getUrl(), bitbayExchange.getCoins());
         saveDataBitbay(valueBitbayCoins);

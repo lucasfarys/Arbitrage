@@ -9,14 +9,11 @@ document.addEventListener('DOMContentLoaded', function () {
         dataType: "json"
     }).done(function (result) {
         var ctx = document.getElementById('myChart').getContext('2d');
-        var data = result.btcPln.sort();
-        var min = data[0];
-        var max = data[data.length-1];
-        console.log(result.date);
+        var dataFirst = result.chartFirst;
+        var dataSecond = result.chartSecond;
         var date = [];
         for(var i=0;i<24;i++){
             date.push()
-            console.log(date);
         }
         var chart = new Chart(ctx, {
             // The type of chart we want to create
@@ -24,11 +21,20 @@ document.addEventListener('DOMContentLoaded', function () {
             // The data for our dataset
             data: {
                 labels: result.date,
-                datasets: [{
-                    label: 'BTCPLN',
+                datasets: [
+                    {
+                        label: result.nameFirst,
+                        backgroundColor: 'rgb(100, 200, 132)',
+                        borderColor: 'rgb(120, 200, 120)',
+                        data: result.chartFirst,
+                        // data: [0, 10, 5, 2, 20, 30, 10],
+                        fill: false
+                    },
+                    {
+                    label: result.nameSecond,
                     backgroundColor: 'rgb(100, 99, 132)',
                     borderColor: 'rgb(120, 120, 120)',
-                    data: result.btcPln,
+                    data: result.chartSecond,
                     // data: [0, 10, 5, 2, 20, 30, 10],
                     fill: false
                 }]
@@ -45,8 +51,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
         });
+        dataFirst.sort();
+        dataSecond.sort();
+        var min = Math.min(dataFirst[0],dataFirst[0]);
+        var max = Math.max(dataFirst[dataFirst.length-1],dataSecond[dataSecond.length-1]);
     }).fail(function (xhr, status, err) {
-        console.log("nie dziala");
     }).always(function (xhr, status) {
     })
 });

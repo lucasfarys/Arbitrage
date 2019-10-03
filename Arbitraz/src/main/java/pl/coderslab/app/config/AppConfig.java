@@ -89,8 +89,8 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 
         List<String> coinsName = new ArrayList<>();
         coinsName.add("BTCETH");
-        coinsName.add("BTCEUR");
-        coinsName.add("BTCUSD");
+        coinsName.add("BTCPLN");
+        coinsName.add("ETHPLN");
 
         Exchange bittrex = new Exchange();
         bittrex.setName(name);
