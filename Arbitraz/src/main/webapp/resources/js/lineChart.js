@@ -2,10 +2,9 @@ document.addEventListener('DOMContentLoaded', function () {
     var exchange = document.getElementById("exchangeSelected");
     exchange.addEventListener("change", function (ev) {
         var exchangeSelected = exchange.options[exchange.selectedIndex].text;
-        console.log(exchangeSelected);
+        // two chart on change
         $.ajax({
             url: "http://localhost:8080/Arbitraz/restchart/" + exchangeSelected
-            // url: "https://bitbay.net/API/Public/BTCPLN/orderbook.json\n"
             ,
             data: {},
             type: "GET"
@@ -31,7 +30,6 @@ document.addEventListener('DOMContentLoaded', function () {
                             backgroundColor: 'rgb(100, 200, 132)',
                             borderColor: 'rgb(120, 200, 120)',
                             data: result.chartFirst,
-                            // data: [0, 10, 5, 2, 20, 30, 10],
                             fill: false
                         },
                         {
@@ -59,13 +57,49 @@ document.addEventListener('DOMContentLoaded', function () {
             dataSecond.sort();
             var min = Math.min(dataFirst[0],dataFirst[0]);
             var max = Math.max(dataFirst[dataFirst.length-1],dataSecond[dataSecond.length-1]);
-        }).fail(function (xhr, status, err) {
-        }).always(function (xhr, status) {
+
+            // difference chart on change
+            var ctx = document.getElementById('myChartDifference').getContext('2d');
+            var dataDifference = result.chartDifference;
+            var chart = new Chart(ctx, {
+                // The type of chart we want to create
+                type: 'line',
+                // The data for our dataset
+                data: {
+                    labels: result.date,
+                    datasets: [
+                        {
+                            label: "Difference [ % ]   Min success is 2 [ % ]",
+                            backgroundColor: 'rgb(120, 120, 120)',
+                            borderColor: 'rgb(120, 200, 120)',
+                            data: result.chartDifference,
+                            fill: false
+                        }]
+                },
+                //Configuration options go here
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                min: minDifference,
+                                max: maxDifference
+                            }
+                        }]
+                    }
+                }
+            });
+            dataDifference.sort();
+            var minDifference = dataDifference[0];
+            var maxDifference = dataDifference[dataDifference.length-1];
+            }).fail(function (xhr, status, err) {
+            }).always(function (xhr, status) {
+            })
         })
+
     })
+    // chart when load dashboard
     $.ajax({
         url: "http://localhost:8080/Arbitraz/restchart"
-        // url: "https://bitbay.net/API/Public/BTCPLN/orderbook.json\n"
         ,
         data: {},
         type: "GET"
@@ -91,7 +125,6 @@ document.addEventListener('DOMContentLoaded', function () {
                         backgroundColor: 'rgb(100, 200, 132)',
                         borderColor: 'rgb(120, 200, 120)',
                         data: result.chartFirst,
-                        // data: [0, 10, 5, 2, 20, 30, 10],
                         fill: false
                     },
                     {
@@ -99,7 +132,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     backgroundColor: 'rgb(100, 99, 132)',
                     borderColor: 'rgb(120, 120, 120)',
                     data: result.chartSecond,
-                    // data: [0, 10, 5, 2, 20, 30, 10],
                     fill: false
                 }]
             },
@@ -108,8 +140,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 scales: {
                     yAxes: [{
                         ticks: {
-                            min: min,
-                            max: max
+                            min: minDefault,
+                            max: maxDefault
                         }
                     }]
                 }
@@ -117,11 +149,46 @@ document.addEventListener('DOMContentLoaded', function () {
         });
         dataFirst.sort();
         dataSecond.sort();
-        var min = Math.min(dataFirst[0],dataFirst[0]);
-        var max = Math.max(dataFirst[dataFirst.length-1],dataSecond[dataSecond.length-1]);
+        var minDefault = Math.min(dataFirst[0],dataFirst[0]);
+        var maxDefault = Math.max(dataFirst[dataFirst.length-1],dataSecond[dataSecond.length-1]);
+
+
+
+        // difference chart
+        var ctx2 = document.getElementById('myChartDifference').getContext('2d');
+        var dataDifference = result.chartDifference;
+        var chart2 = new Chart(ctx2, {
+            // The type of chart we want to create
+            type: 'line',
+            // The data for our dataset
+            data: {
+                labels: result.date,
+                datasets: [
+                    {
+                        label: "Difference [ % ]   Min success is 2 [ % ]",
+                        backgroundColor: 'rgb(120, 120, 120)',
+                        borderColor: 'rgb(120, 200, 120)',
+                        data: result.chartDifference,
+                        fill: false
+                    }]
+            },
+            //Configuration options go here
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            min: minDifferenceDefault,
+                            max: maifferenceDefault
+                        }
+                    }]
+                }
+            }
+        });
+        dataDifference.sort();
+        var minDifferenceDefault = dataDifference[0];
+        var maifferenceDefault = dataDifference[dataDifference.length-1];
     }).fail(function (xhr, status, err) {
     }).always(function (xhr, status) {
-    })
 });
 
 

@@ -67,11 +67,9 @@ public class AppConfig extends WebMvcConfigurerAdapter {
         coinsName.add("BTCETH");
         coinsName.add("ETHPLN");
 
-        Double feeProcentMaker = 0.0;
 
         Map<String, Double> feesWithdrawCoin = new HashMap<>();
         feesWithdrawCoin.put("ETHBTC", 0.00045);
-//        feesWithdrawCoin.put("")
 
         Exchange bitbay = new Exchange();
         bitbay.setName(name);
@@ -94,8 +92,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 
         List<String> coinsName = new ArrayList<>();
         coinsName.add("BTCETH");
-        coinsName.add("BTCPLN");
-        coinsName.add("ETHPLN");
+        coinsName.add("BTCUSD");
 
         Double feePorcentMaker = 0.25;
 
@@ -103,6 +100,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
         bittrex.setName(name);
         bittrex.setUrl(url);
         bittrex.setCoins(coins);
+        bittrex.setCoinsName(coinsName);
         return bittrex;
     }
     @Override

@@ -39,14 +39,24 @@ public class ChartRestController <T>{
     public String getJson(String exchangeFirst,String exchangeSecond, String coin){
         Double[] chartFirstData = getAskExchangeModelFromDB(exchangeFirst, coin);
         Double[] chartSecondData = getBidExchangeModelFromDB(exchangeSecond, coin);
+        Double[] chartDifferenceData = differenceData(chartFirstData,chartSecondData);
 
         JSONObject jsonObjectValue = new JSONObject();
         jsonObjectValue.put("chartFirst",chartFirstData);
         jsonObjectValue.put("chartSecond",chartSecondData);
+        jsonObjectValue.put("chartDifference",chartDifferenceData);
         jsonObjectValue.put("date",getDate(exchangeFirst));
         jsonObjectValue.put("nameFirst", exchangeFirst);
         jsonObjectValue.put("nameSecond", exchangeSecond);
         return jsonObjectValue.toString();
+    }
+
+    private Double[] differenceData(Double[] chartFirstData, Double[] chartSecondData) {
+        Double[] result = new Double[chartFirstData.length];
+        for (int i = 0; i < chartFirstData.length; i++) {
+            result[i] = (chartFirstData[i]/chartSecondData[i])-1;
+        }
+        return result;
     }
 
     public Double[] getAskExchangeModelFromDB(String exchangeName, String coin){

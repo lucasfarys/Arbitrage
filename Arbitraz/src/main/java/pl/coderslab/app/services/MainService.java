@@ -36,6 +36,7 @@ public class MainService {
     @Scheduled(fixedRate = 3600000)
     public void getPrices(){
         Map<String, DataBitbayDTO> valueBitbayCoins;
+
         valueBitbayCoins = bitbayExchange.getAllPriceBitbay(bitbayExchange.getUrl(), bitbayExchange.getCoins());
         bitbayService.saveDataBitbay(valueBitbayCoins);
 
@@ -43,22 +44,36 @@ public class MainService {
         valueBittrexCoins = bittrexExchange.getAllPriceBittrex(bittrexExchange.getUrl(), bittrexExchange.getCoins());
         bittrexService.saveDataBittrex(valueBittrexCoins);
 
-        calculateDifferenceBetweenCoins(valueBitbayCoins, bitbayExchange ,valueBittrexCoins, bittrexExchange.getCoins());
+        calculateDifferenceBetweenCoins(valueBitbayCoins,valueBittrexCoins);
     }
 
-    private void calculateDifferenceBetweenCoins(Map<String, DataBitbayDTO> valueBitbayCoins, Exchange bitbayExchange ,
-                                                 Map<String,DataBittrexDTO> valueBittrexCoins, Map<String,String> coinsBittrex) {
+    private void calculateDifferenceBetweenCoins(Map<String, DataBitbayDTO> valueBitbayCoins,
+                                                 Map<String,DataBittrexDTO> valueBittrexCoins) {
         List<Favourite> favourites = favouriteRepository.findAll();
+        Double firstValue = 0.0;
+        Double secondValue = 0.0;
         for(Favourite el: favourites){
             if("Bitbay".equals(el.getExchange_first())){
-                if("Bittrex".equals(el.getExchange_second())){
-                    Double firstValue = valueBittrexCoins.get(coinsBittrex.get(el.getCoin())).getResult().getBid();
-                    Double secondValue = valueBitbayCoins.get(bitbayExchange.getCoins().get(el.getCoin())).getAsk();
-                    Double difference = firstValue-secondValue;
-                    Double differenceProcent = (firstValue/secondValue)-1;
-                    System.out.println("test");
-                }
+                firstValue = valueBitbayCoins.get(bitbayExchange.getCoins().get(el.getCoin())).getAsk();
+            } else if("Bittrex".equals(el.getExchange_first())){
+                firstValue = valueBittrexCoins.get(bittrexExchange.getCoins().get(el.getCoin())).getResult().getAsk();
+            }
+
+            if("Bitbay".equals(el.getExchange_second())){
+                secondValue = valueBitbayCoins.get(bitbayExchange.getCoins().get(el.getCoin())).getBid();
+            } else if("Bittrex".equals(el.getExchange_second())){
+                secondValue = valueBittrexCoins.get(bittrexExchange.getCoins().get(el.getCoin())).getResult().getBid();
             }
         }
+        Double difference = firstValue-secondValue;
+        Double differenceProcent = (firstValue/secondValue)-1;
+        // if difference >= 2%
+        if(differenceProcent >= 2){
+            sendEmail();
+        }
+    }
+
+    private void sendEmail() {
+        System.out.println("send Email");
     }
 }

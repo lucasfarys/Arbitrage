@@ -5,10 +5,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import pl.coderslab.app.dto.FavouriteFormDTO;
 import pl.coderslab.app.exchange.Exchange;
 import pl.coderslab.app.services.FavouriteService;
@@ -35,14 +32,13 @@ public class FavouriteController {
         List<String> coinsName = new ArrayList<>();
         exchanges.add(bitbay);
         exchanges.add(bittrex);
-//        for(int i=1; i<bitbay.getCoinsName().size();i++){
-//            if(bitbay.getCoinsName().get(i).equalsIgnoreCase(bittrex.getCoinsName().get(i)));{
-//                coinsName.add(bitbay.getCoinsName().get(i));
-//            }
-//        }
-        coinsName.add("BTCPLN");
-        coinsName.add("BTCETH");
-        coinsName.add("BTCUSD");
+
+        for(String el: bitbay.getCoinsName()){
+            coinsName.add(el);
+        }
+        for(String el: bittrex.getCoinsName()){
+            coinsName.add(el);
+        }
         model.addAttribute("exchange",exchanges);
         model.addAttribute("coinsName",coinsName);
         return "addFavourite";
