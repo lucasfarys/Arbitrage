@@ -1,12 +1,8 @@
 package pl.coderslab.app.web.controllers;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import pl.coderslab.app.dto.FavouriteFormDTO;
 import pl.coderslab.app.exchange.Exchange;
 import pl.coderslab.app.services.FavouriteService;
 
@@ -42,17 +38,5 @@ public class FavouriteController {
         model.addAttribute("exchange",exchanges);
         model.addAttribute("coinsName",coinsName);
         return "addFavourite";
-    }
-    @PostMapping
-    public String addFavourite(@ModelAttribute("exchange01") String exchange01, @ModelAttribute("exchange02") String exchange02,
-                               @ModelAttribute("coin") String coin, BindingResult bindingResult){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        FavouriteFormDTO favouriteFormDTO = new FavouriteFormDTO();
-        favouriteFormDTO.setCoin(coin);
-        favouriteFormDTO.setExchange_first(exchange01);
-        favouriteFormDTO.setExchange_second(exchange02);
-        favouriteFormDTO.setLogin(authentication.getName());
-        favouriteService.saveFavourite(favouriteFormDTO);
-        return "redirect:/dashboard";
     }
 }

@@ -1,52 +1,72 @@
 package pl.coderslab.app.web.controllers;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONObject;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
+import pl.coderslab.app.dto.FavouriteFormDTO;
 import pl.coderslab.app.exchange.Exchange;
+import pl.coderslab.app.repositories.FavouriteRepository;
+import pl.coderslab.app.services.FavouriteService;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@RestController("/addfavourite")
+
+@RestController
+@RequestMapping("/restfavourite")
 public class FavouriteRestController {
     private Exchange bitbay;
     private Exchange bittrex;
+    private FavouriteService favouriteService;
 
-    public FavouriteRestController(Exchange bitbay, Exchange bittrex) {
+    public FavouriteRestController(Exchange bitbay, Exchange bittrex, FavouriteService favouriteService) {
         this.bitbay = bitbay;
         this.bittrex = bittrex;
+        this.favouriteService = favouriteService;
     }
-
-    @GetMapping("/{exchangeFirst}/{exchangeSecond}")
-    public String prepareFavouriteCourse(@PathVariable String exchangeFirst,@PathVariable String exchangeSecond){
+    @PostMapping("/add")
+    public void saveFavourite(@RequestParam String exchangeFirst, @RequestParam String exchangeSecond,
+                              @RequestParam String coin){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        FavouriteFormDTO favouriteFormDTO = new FavouriteFormDTO();
+        favouriteFormDTO.setCoin(coin);
+        favouriteFormDTO.setExchange_first(exchangeFirst);
+        favouriteFormDTO.setExchange_second(exchangeSecond);
+        favouriteFormDTO.setLogin(authentication.getName());
+        favouriteService.saveFavourite(favouriteFormDTO);
+    }
+    @GetMapping("/select/{exchangeFirst}/{exchangeSecond}")
+    public String getCoinsName(@PathVariable String exchangeFirst, @PathVariable String exchangeSecond){
         JSONObject jsonObject = new JSONObject();
-        List<String> favouriteCoinsName = new ArrayList<>();
-        System.out.println("test");
-        System.out.println(exchangeFirst);
-        System.out.println(exchangeSecond);
-        if(bitbay.getName().equals(exchangeFirst)){
-            if(bittrex.getName().equals(exchangeSecond)){
-                favouriteCoinsName = getFavouriteCoinsName(bitbay,bittrex);
-            }
-        } else if(bittrex.getName().equals(exchangeFirst)){
-                    if(bitbay.getName().equals(exchangeSecond)){
-                        System.out.println("test");
-
-                        favouriteCoinsName = getFavouriteCoinsName(bittrex,bitbay);
-
-                    }
+        List<String> coinsName = new ArrayList<>();
+        if(!("Giełda 1".equals(exchangeFirst) | "Giełda 2".equals(exchangeSecond))){
+            if("Bitbay".equals(exchangeFirst)){
+                if("Bittrex".equals(exchangeSecond)){
+                    coinsName = searchCoinsName(bitbay,bittrex);
                 }
-        System.out.println(favouriteCoinsName);
-        System.out.println("test");
-        jsonObject.put("favouriteCoinsName", favouriteCoinsName);
+            }
+            if("Bittrex".equals(exchangeFirst)){
+                if("Bitbay".equals(exchangeSecond)){
+                    coinsName = searchCoinsName(bitbay,bittrex);
+                }
+            }
+        }
+        jsonObject.put("coinsName", coinsName);
         return jsonObject.toString();
     }
-    public List<String> getFavouriteCoinsName(Exchange exchangeFirst, Exchange exchangeSecond){
-        List<String> result = new ArrayList<>();
 
+    private List<String> searchCoinsName(Exchange exchangeFirst, Exchange exchangeSecond) {
+        List<String> result = new ArrayList<>();
+        for (String exFirst: exchangeFirst.getCoinsName()){
+            for (String exSecond: exchangeSecond.getCoinsName()){
+                if(exFirst.equals(exSecond)){
+                    result.add(exFirst);
+                }
+            }
+        }
         return result;
     }
 }

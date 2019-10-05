@@ -92,7 +92,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 
         List<String> coinsName = new ArrayList<>();
         coinsName.add("BTCETH");
-        coinsName.add("BTCUSD");
+        coinsName.add("BTCPLN");
 
         Double feePorcentMaker = 0.25;
 

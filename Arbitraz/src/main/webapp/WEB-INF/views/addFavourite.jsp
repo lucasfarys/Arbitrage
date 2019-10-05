@@ -15,7 +15,7 @@
     <jsp:include page="header.jsp"/>
 </head>
 <body>
-    <form action="${mainUrl}dashboard/addfavourite"  method="post">
+    <form action="${mainUrl}dashboard"  method="get">
         <center><br><br><H3>Dodaj kurs do ulubionych</H3></center><br><br>
         <div class="input-group mb-3 container" style="max-width: 700px;">
             <select class="custom-select" id="exchangeFirst">
@@ -37,10 +37,10 @@
                 </c:forEach>
             </select>
         </div>
-        <input type="hidden" name="exchange01" value="" id="exchange01">
-        <input type="hidden" name="exchange02" value="" id="exchange02">
-        <input type="hidden" name="coin" value="" id="coin">
-        <center><button type="submit" class="btn btn-dark">Dodaj</button></center>
+        <center>
+            <button type="button" class="btn btn-dark" id="saveButton" value="${mainUrl}">Dodaj</button>
+            <button type="submit" class="btn btn-dark" id="dasboardButton" value="${mainUrl}">Panel</button>
+        </center>
     </form>
 </body>
     <jsp:include page="footer.jsp"/>

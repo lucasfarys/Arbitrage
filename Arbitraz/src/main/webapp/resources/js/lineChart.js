@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
     exchange.addEventListener("change", function (ev) {
         var exchangeSelected = exchange.options[exchange.selectedIndex].text;
         // two chart on change
+
         $.ajax({
             url: "http://localhost:8080/Arbitraz/restchart/" + exchangeSelected
             ,
@@ -37,7 +38,6 @@ document.addEventListener('DOMContentLoaded', function () {
                             backgroundColor: 'rgb(100, 99, 132)',
                             borderColor: 'rgb(120, 120, 120)',
                             data: result.chartSecond,
-                            // data: [0, 10, 5, 2, 20, 30, 10],
                             fill: false
                         }]
                 },
@@ -46,8 +46,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     scales: {
                         yAxes: [{
                             ticks: {
-                                min: min,
-                                max: max
+                                min: minDefault,
+                                max: maxDefault
                             }
                         }]
                     }
@@ -55,13 +55,15 @@ document.addEventListener('DOMContentLoaded', function () {
             });
             dataFirst.sort();
             dataSecond.sort();
-            var min = Math.min(dataFirst[0],dataFirst[0]);
-            var max = Math.max(dataFirst[dataFirst.length-1],dataSecond[dataSecond.length-1]);
+            var minDefault = Math.min(dataFirst[0],dataFirst[0]);
+            var maxDefault = Math.max(dataFirst[dataFirst.length-1],dataSecond[dataSecond.length-1]);
 
-            // difference chart on change
-            var ctx = document.getElementById('myChartDifference').getContext('2d');
+
+
+            // difference chart
+            var ctx2 = document.getElementById('myChartDifference').getContext('2d');
             var dataDifference = result.chartDifference;
-            var chart = new Chart(ctx, {
+            var chart2 = new Chart(ctx2, {
                 // The type of chart we want to create
                 type: 'line',
                 // The data for our dataset
@@ -81,22 +83,21 @@ document.addEventListener('DOMContentLoaded', function () {
                     scales: {
                         yAxes: [{
                             ticks: {
-                                min: minDifference,
-                                max: maxDifference
+                                min: minDifferenceDefault,
+                                max: maifferenceDefault
                             }
                         }]
                     }
                 }
             });
             dataDifference.sort();
-            var minDifference = dataDifference[0];
-            var maxDifference = dataDifference[dataDifference.length-1];
-            }).fail(function (xhr, status, err) {
-            }).always(function (xhr, status) {
-            })
-        })
+            var minDifferenceDefault = dataDifference[0];
+            var maifferenceDefault = dataDifference[dataDifference.length-1];
+        }).fail(function (xhr, status, err) {
+        }).always(function (xhr, status) {
+        });
+    });
 
-    })
     // chart when load dashboard
     $.ajax({
         url: "http://localhost:8080/Arbitraz/restchart"
@@ -189,7 +190,9 @@ document.addEventListener('DOMContentLoaded', function () {
         var maifferenceDefault = dataDifference[dataDifference.length-1];
     }).fail(function (xhr, status, err) {
     }).always(function (xhr, status) {
+    });
 });
+
 
 
 
