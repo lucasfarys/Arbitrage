@@ -4,9 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.coderslab.app.dto.DataCoinDTO;
 import pl.coderslab.app.model.DataCoin;
-import pl.coderslab.app.model.Exchange;
 import pl.coderslab.app.repositories.DataCoinRepository;
-import pl.coderslab.app.repositories.ExchangeRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +25,7 @@ public class DataCoinService {
             DataCoin dataCoin = new DataCoin();
             dataCoin.setAsk(dataCoinsDTO.get(i).getAsk());
             dataCoin.setBid(dataCoinsDTO.get(i).getBid());
-//            dataCoin.setExchangeCoin(dataCoinsDTO.get(i).getExchangeCoin());
+            dataCoin.setExchangeCoin(dataCoinsDTO.get(i).getExchangeCoin());
             dataCoinRepository.save(dataCoin);
         }
     }

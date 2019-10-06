@@ -7,6 +7,8 @@ import pl.coderslab.app.model.Exchange;
 import pl.coderslab.app.model.ExchangeCoin;
 import pl.coderslab.app.repositories.ExchangeRepository;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class ExchangeService {
@@ -16,7 +18,9 @@ public class ExchangeService {
     public ExchangeService(ExchangeRepository exchangeRepository) {
         this.exchangeRepository = exchangeRepository;
     }
-
+    public List<Exchange> getExchanges(){
+        return exchangeRepository.findAll();
+    }
     public Exchange getExchangeById(Long id) {
         Exchange exchange = exchangeRepository.findAllById(id);
 

@@ -27,8 +27,7 @@ public class HomePageController {
         String username = principal.getName();
         model.addAttribute("username", username);
         String time = LocalDateTime.now().toString();
-        System.out.println(exchangeService.getExchangeById(1L).getAddressUrlPrefix());
-        dataCoinService.saveDataCoins(new ArrayList<>());
+        System.out.println(exchangeService.getExchangeById(1L).getExchangeCoins().get(0).getExchange().getId());
         return "index";
     }
 }

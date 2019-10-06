@@ -1,12 +1,14 @@
 package pl.coderslab.app.dto;
 
+import pl.coderslab.app.model.ExchangeCoin;
+
 import java.util.Objects;
 
 public class DataCoinDTO {
     private Long id;
     private Double ask;
     private Double bid;
-    private Long exchangeCoin;
+    private ExchangeCoin exchangeCoin;
 
     public Long getId() {
         return id;
@@ -32,11 +34,11 @@ public class DataCoinDTO {
         this.bid = bid;
     }
 
-    public Long getExchangeCoin() {
+    public ExchangeCoin getExchangeCoin() {
         return exchangeCoin;
     }
 
-    public void setExchangeCoin(Long exchangeCoin) {
+    public void setExchangeCoin(ExchangeCoin exchangeCoin) {
         this.exchangeCoin = exchangeCoin;
     }
 
