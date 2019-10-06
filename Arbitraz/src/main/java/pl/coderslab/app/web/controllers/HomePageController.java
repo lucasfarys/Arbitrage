@@ -4,19 +4,22 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import pl.coderslab.app.services.DataCoinService;
 import pl.coderslab.app.services.ExchangeService;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 
 @Controller
 @RequestMapping("/")
 public class HomePageController {
     private ExchangeService exchangeService;
-
-    public HomePageController(ExchangeService exchangeService) {
+    private DataCoinService dataCoinService;
+    public HomePageController(ExchangeService exchangeService, DataCoinService dataCoinService) {
         this.exchangeService = exchangeService;
+        this.dataCoinService = dataCoinService;
     }
 
     @GetMapping
@@ -25,7 +28,7 @@ public class HomePageController {
         model.addAttribute("username", username);
         String time = LocalDateTime.now().toString();
         System.out.println(exchangeService.getExchangeById(1L).getAddressUrlPrefix());
-
+        dataCoinService.saveDataCoins(new ArrayList<>());
         return "index";
     }
 }
