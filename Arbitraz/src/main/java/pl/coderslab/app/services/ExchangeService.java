@@ -19,7 +19,9 @@ public class ExchangeService {
         this.exchangeRepository = exchangeRepository;
     }
     public List<Exchange> getExchanges(){
-        return exchangeRepository.findAll();
+        List<Exchange> exchanges = exchangeRepository.findAll();
+        exchanges.forEach(e -> e.getExchangeCoins().size());
+        return exchanges;
     }
     public Exchange getExchangeById(Long id) {
         Exchange exchange = exchangeRepository.findAllById(id);

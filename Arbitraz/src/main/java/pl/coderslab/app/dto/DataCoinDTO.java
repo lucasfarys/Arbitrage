@@ -1,11 +1,16 @@
 package pl.coderslab.app.dto;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import pl.coderslab.app.model.ExchangeCoin;
 
 import java.util.Objects;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class DataCoinDTO {
     private Long id;
+    @JsonAlias({"ask","result:Ask"})
     private Double ask;
     private Double bid;
     private ExchangeCoin exchangeCoin;
