@@ -21,6 +21,12 @@ public class Exchange {
     @OneToMany(mappedBy = "exchange")
     private List<ExchangeCoin> exchangeCoins;
 
+    @OneToMany(mappedBy = "exchangeFirst")
+    private List<Favourite> favouritesFirst;
+
+    @OneToMany(mappedBy = "exchangeSecond")
+    private List<Favourite> favouritesSecond;
+
     public Long getId() {
         return id;
     }

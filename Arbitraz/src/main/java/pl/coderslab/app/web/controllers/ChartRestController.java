@@ -1,14 +1,21 @@
 package pl.coderslab.app.web.controllers;
 
 import org.json.JSONObject;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import pl.coderslab.app.model.DataCoin;
+import pl.coderslab.app.model.Exchange;
+import pl.coderslab.app.model.Favourite;
 import pl.coderslab.app.model.exchangeModel.Bitbay;
 import pl.coderslab.app.model.exchangeModel.Bittrex;
 import pl.coderslab.app.repositories.BitbayRepository;
 import pl.coderslab.app.repositories.BittrexRepository;
+import pl.coderslab.app.services.DataCoinService;
+import pl.coderslab.app.services.ExchangeService;
+import pl.coderslab.app.services.FavouriteService;
 
 import java.util.Collections;
 import java.util.List;
@@ -19,14 +26,59 @@ public class ChartRestController <T>{
     private BitbayRepository bitbayRepository;
     private BittrexRepository bittrexRepository;
 
-    public ChartRestController(BitbayRepository bitbayRepository, BittrexRepository bittrexRepository) {
+    private DataCoinService dataCoinService;
+    private ExchangeService exchangeService;
+    private FavouriteService favouriteService;
+
+    public ChartRestController(BitbayRepository bitbayRepository, BittrexRepository bittrexRepository,
+                               DataCoinService dataCoinService, ExchangeService exchangeService,
+                               FavouriteService favouriteService) {
         this.bitbayRepository = bitbayRepository;
         this.bittrexRepository = bittrexRepository;
+        this.dataCoinService = dataCoinService;
+        this.exchangeService = exchangeService;
+        this.favouriteService = favouriteService;
     }
 
     @GetMapping
     public String showChart(){
-        return getJson("Bitbay","Bittrex","BTCETH");
+        JSONObject json = new JSONObject();
+
+        Favourite lastAddedFavourite = favouriteService.findLastAddedFavourite(
+                SecurityContextHolder.getContext().getAuthentication().getName());
+
+        List<DataCoin> dataCoinsFirst = dataCoinService.getFirst24DataCoinByExchangeIdAndCoinId(
+                lastAddedFavourite.getExchangeFirst().getId(),lastAddedFavourite.getCoin().getId());
+        List<DataCoin> dataCoinsSecond = dataCoinService.getFirst24DataCoinByExchangeIdAndCoinId(
+                lastAddedFavourite.getExchangeSecond().getId(),lastAddedFavourite.getCoin().getId());
+
+        Double[] dataFirst = new Double[dataCoinsFirst.size()];
+        Double[] dataSecond = new Double[dataCoinsSecond.size()];
+        Double[] dataDifference = new Double[dataCoinsFirst.size()];
+        Integer[] date = new Integer[dataCoinsFirst.size()];
+
+        for (int i = 0; i < dataCoinsFirst.size(); i++) {
+            dataFirst[i] = dataCoinsFirst.get(i).getAsk();
+            date[i] = dataCoinsFirst.get(i).getCreated().getHour();
+        }
+        for (int i = 0; i < dataCoinsSecond.size(); i++) {
+            dataSecond[i] = dataCoinsSecond.get(i).getAsk();
+        }
+        for (int i = 0; i < dataDifference.length; i++) {
+            dataDifference[i] = dataFirst[i] - dataSecond[i];
+        }
+        json.put("chartFirst",dataFirst);
+        json.put("chartSecond",dataSecond);
+        json.put("date",date);
+        json.put("nameFirst", lastAddedFavourite.getExchangeFirst().getName());
+        json.put("nameSecond", lastAddedFavourite.getExchangeSecond().getName());
+        json.put("chartDifference",dataDifference);
+        System.out.println(dataCoinsFirst.get(0).getAsk());
+        //Exchange exchangeFirst = exchangeService.getExchangeByName("Bitbay");
+
+
+        return json.toString();
+//        return getJson("Bitbay","Bittrex","BTCETH");
     }
     @GetMapping("/{exchangeSelected}")
     public String showChart(@PathVariable String exchangeSelected){

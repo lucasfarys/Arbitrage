@@ -7,7 +7,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<c:url ask="/" var="mainUrl"/>
+<c:url value="/" var="mainUrl"/>
 <html>
 <head>
     <title>Chart</title>
@@ -16,6 +16,7 @@
 <body>
     <br><div class="input-group mb-3 container" style="max-width: 700px;">
         <select class="custom-select" id="exchangeSelected">
+            <option selected>Wybierz parę walutową</option>
             <c:forEach var="ex" varStatus="loop" items="${favourites}">
                 <option ask="${loop.count}">${ex}</option>
             </c:forEach>

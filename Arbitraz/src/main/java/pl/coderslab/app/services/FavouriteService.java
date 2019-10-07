@@ -17,12 +17,15 @@ public class FavouriteService {
     public List<Favourite> fiandAllFavouritesByLogin(String login){
         return favouriteRepository.findAllByLogin("lukaszfarys@gmail.com");
     }
+    public Favourite findLastAddedFavourite(String login){
+        return favouriteRepository.findFirstByLoginOrderByIdDesc(login);
+    }
     public void saveFavourite(FavouriteFormDTO favouriteFormDTO){
         Favourite favourite = new Favourite();
         favourite.setLogin(favouriteFormDTO.getLogin());
         favourite.setCoin(favouriteFormDTO.getCoin());
-        favourite.setExchangeFirstId(favouriteFormDTO.getExchange_first());
-        favourite.setExchangeSecondId(favouriteFormDTO.getExchange_second());
+        favourite.setExchangeFirst(favouriteFormDTO.getExchangeFirst());
+        favourite.setExchangeSecond(favouriteFormDTO.getExchangeSecond());
         favouriteRepository.save(favourite);
     }
 }

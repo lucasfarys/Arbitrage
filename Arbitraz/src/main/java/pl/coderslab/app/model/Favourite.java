@@ -11,11 +11,13 @@ public class Favourite {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String login;
-    private Long exchangeFirstId;
-    private Long exchangeSecondId;
 
     @ManyToOne
     private Coin coin;
+    @ManyToOne
+    private Exchange exchangeFirst;
+    @ManyToOne
+    private Exchange exchangeSecond;
 
     public Long getId() {
         return id;
@@ -33,29 +35,28 @@ public class Favourite {
         this.login = login;
     }
 
-
-    public Long getExchangeFirstId() {
-        return exchangeFirstId;
-    }
-
-    public void setExchangeFirstId(Long exchangeFirstId) {
-        this.exchangeFirstId = exchangeFirstId;
-    }
-
-    public Long getExchangeSecondId() {
-        return exchangeSecondId;
-    }
-
-    public void setExchangeSecondId(Long exchangeSecondId) {
-        this.exchangeSecondId = exchangeSecondId;
-    }
-
     public Coin getCoin() {
         return coin;
     }
 
     public void setCoin(Coin coin) {
         this.coin = coin;
+    }
+
+    public Exchange getExchangeFirst() {
+        return exchangeFirst;
+    }
+
+    public void setExchangeFirst(Exchange exchangeFirst) {
+        this.exchangeFirst = exchangeFirst;
+    }
+
+    public Exchange getExchangeSecond() {
+        return exchangeSecond;
+    }
+
+    public void setExchangeSecond(Exchange exchangeSecond) {
+        this.exchangeSecond = exchangeSecond;
     }
 
     @Override

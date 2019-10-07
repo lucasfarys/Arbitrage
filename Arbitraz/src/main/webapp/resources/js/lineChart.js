@@ -125,7 +125,8 @@ document.addEventListener('DOMContentLoaded', function () {
                         label: result.nameFirst,
                         backgroundColor: 'rgb(100, 200, 132)',
                         borderColor: 'rgb(120, 200, 120)',
-                        data: result.chartFirst,
+                        //data: [10000,20000,30000,40000,50000,60000,70000,80000,90000,100000],
+                        // data: result.chartFirst,
                         fill: false
                     },
                     {
