@@ -1,13 +1,15 @@
 package pl.coderslab.app.dto;
 
+import pl.coderslab.app.model.Coin;
+
 import java.util.Objects;
 
 public class FavouriteFormDTO {
     private Long id;
     private String login;
-    private String exchange_first;
-    private String exchange_second;
-    private String coin;
+    private Long exchange_first;
+    private Long exchange_second;
+    private Coin coin;
 
     public FavouriteFormDTO() {
     }
@@ -28,27 +30,27 @@ public class FavouriteFormDTO {
         this.login = login;
     }
 
-    public String getCoin() {
+    public Coin getCoin() {
         return coin;
     }
 
-    public void setCoin(String coin) {
+    public void setCoin(Coin coin) {
         this.coin = coin;
     }
 
-    public String getExchange_first() {
+    public Long getExchange_first() {
         return exchange_first;
     }
 
-    public void setExchange_first(String exchange_first) {
+    public void setExchange_first(Long exchange_first) {
         this.exchange_first = exchange_first;
     }
 
-    public String getExchange_second() {
+    public Long getExchange_second() {
         return exchange_second;
     }
 
-    public void setExchange_second(String exchange_second) {
+    public void setExchange_second(Long exchange_second) {
         this.exchange_second = exchange_second;
     }
 

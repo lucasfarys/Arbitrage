@@ -20,20 +20,20 @@
         <div class="input-group mb-3 container" style="max-width: 700px;">
             <select class="custom-select" id="exchangeFirst">
                 <option selected>Giełda 1</option>
-                <c:forEach var="el" varStatus="loop" items="${exchange}">
-                    <option value="${loop.count}">${el.name}</option>
+                <c:forEach var="ex" varStatus="loop" items="${exchange}">
+                        <option value="${loop.count}">${ex.name}</option>
                 </c:forEach>
             </select>
             <select class="custom-select" id="exchangeSecond">
                 <option selected>Giełda 2</option>
-                <c:forEach var="el" varStatus="loop" items="${exchange}">
-                    <option value="${loop.count}">${el.name}</option>
+                <c:forEach var="ex" varStatus="loop" items="${exchange}">
+                    <option value="${loop.count}">${ex.name}</option>
                 </c:forEach>
             </select>
             <select class="custom-select" id="course">
                 <option selected>Kurs</option>
-                <c:forEach var="el" varStatus="loop" items="${coinsName}">
-                <option value="${loop.count}">${el}</option>
+                <c:forEach var="coin" varStatus="loop" items="${coins}">
+                <option value="${loop.count}">${coin.coinName}</option>
                 </c:forEach>
             </select>
         </div>

@@ -11,13 +11,12 @@ document.addEventListener('DOMContentLoaded', function () {
             type: 'application/json',
             dataType: 'json',
         }).done(function (result) {
-            if(result.coinsName.length != 0){
+            if(result.coinNames != null){
                 while(course.options.length){
                     course.options.remove(0);
                 }
-                console.log(result.coinsName.length);
-                for (var i = 0; i<result.coinsName.length; i++){
-                    course.options.add( new Option(result.coinsName[i], i));
+                for (var i = 0; i<result.coinNames.length; i++){
+                    course.options.add( new Option(result.coinNames[i], i));
                 }
             }
         }).fail(function (xhr, status, err) {
@@ -32,17 +31,13 @@ document.addEventListener('DOMContentLoaded', function () {
             type: 'application/json',
             dataType: 'json',
         }).done(function (result) {
-            if(result.coinsName.length != 0){
-                console.log(course.options);
+            if(result.coinNames != null){
                 while(course.options.length){
                     course.options.remove(0);
                 }
-                var size = result.coinsName.length;
-                console.log(size + "dupa");
-                for (var i = 0; i<result.coinsName.length; i++){
-                    course.options.add( new Option(result.coinsName[i], i));
+                for (var i = 0; i<result.coinNames.length; i++){
+                    course.options.add( new Option(result.coinNames[i], i));
                 }
-                console.log(result.coinsName.length);
             }
         }).fail(function (xhr, status, err) {
         }).always(function (xhr, status) {

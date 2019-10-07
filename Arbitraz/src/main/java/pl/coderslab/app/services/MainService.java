@@ -52,19 +52,19 @@ public class MainService {
         List<Favourite> favourites = favouriteRepository.findAll();
         Double firstValue = 0.0;
         Double secondValue = 0.0;
-        for(Favourite el: favourites){
-            if("Bitbay".equals(el.getExchange_first())){
-                firstValue = valueBitbayCoins.get(bitbayExchange.getCoins().get(el.getCoin())).getAsk();
-            } else if("Bittrex".equals(el.getExchange_first())){
-                firstValue = valueBittrexCoins.get(bittrexExchange.getCoins().get(el.getCoin())).getResult().getAsk();
-            }
-
-            if("Bitbay".equals(el.getExchange_second())){
-                secondValue = valueBitbayCoins.get(bitbayExchange.getCoins().get(el.getCoin())).getBid();
-            } else if("Bittrex".equals(el.getExchange_second())){
-                secondValue = valueBittrexCoins.get(bittrexExchange.getCoins().get(el.getCoin())).getResult().getBid();
-            }
-        }
+//        for(Favourite el: favourites){
+//            if("Bitbay".equals(el.getExchange_first())){
+//                firstValue = valueBitbayCoins.get(bitbayExchange.getCoins().get(el.getCoin())).getAsk();
+//            } else if("Bittrex".equals(el.getExchange_first())){
+//                firstValue = valueBittrexCoins.get(bittrexExchange.getCoins().get(el.getCoin())).getResult().getAsk();
+//            }
+//
+//            if("Bitbay".equals(el.getExchange_second())){
+//                secondValue = valueBitbayCoins.get(bitbayExchange.getCoins().get(el.getCoin())).getBid();
+//            } else if("Bittrex".equals(el.getExchange_second())){
+//                secondValue = valueBittrexCoins.get(bittrexExchange.getCoins().get(el.getCoin())).getResult().getBid();
+//            }
+//        }
         Double difference = firstValue-secondValue;
         Double differenceProcent = (firstValue/secondValue)-1;
         // if difference >= 2%

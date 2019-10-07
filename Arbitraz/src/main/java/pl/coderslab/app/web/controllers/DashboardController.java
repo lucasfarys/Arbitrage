@@ -46,14 +46,16 @@ public class DashboardController {
     }
 
     @GetMapping
+    @ResponseBody
     public String prepareDashboard(Model model) {
-        List<Favourite> favouritesFromDB = favouriteRepository.findAllByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
-        List<String> favourites = new ArrayList<>();
-        for(Favourite el: favouritesFromDB){
-            favourites.add(el.getExchange_first() + " | " + el.getExchange_second() + " | " + el.getCoin());
-        }
-        model.addAttribute("favourites", favourites);
-        return "dashboard";
+//        List<Favourite> favouritesFromDB = favouriteRepository.findAllByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
+//        List<String> favourites = new ArrayList<>();
+//        for(Favourite el: favouritesFromDB){
+//            favourites.add(el.getExchange_first() + " | " + el.getExchange_second() + " | " + el.getCoin());
+//        }
+//        model.addAttribute("favourites", favourites);
+//        return "dashboard";
+        return "test";
     }
 
 

@@ -34,10 +34,12 @@ public class ExchangeService {
 //        }
 
         exchange.getExchangeCoins().stream().forEach(c->c.getDataCoins().size());
-
-
-
-
+        return exchange;
+    }
+    public Exchange getExchangeByName( String name){
+        Exchange exchange = new Exchange();
+        exchange = exchangeRepository.findAllByName(name);
+        exchange.getExchangeCoins().size();
         return exchange;
     }
 }

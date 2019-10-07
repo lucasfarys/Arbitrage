@@ -16,8 +16,8 @@
 <body>
     <br><div class="input-group mb-3 container" style="max-width: 700px;">
         <select class="custom-select" id="exchangeSelected">
-            <c:forEach var="el" varStatus="loop" items="${favourites}">
-                <option ask="${loop.count}">${el}</option>
+            <c:forEach var="ex" varStatus="loop" items="${favourites}">
+                <option ask="${loop.count}">${ex}</option>
             </c:forEach>
         </select>
     </div>
