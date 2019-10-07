@@ -28,4 +28,7 @@ public class FavouriteService {
         favourite.setExchangeSecond(favouriteFormDTO.getExchangeSecond());
         favouriteRepository.save(favourite);
     }
+    public List<Favourite> finadAll(){
+        return favouriteRepository.findAll();
+    }
 }

@@ -19,7 +19,10 @@ document.addEventListener('DOMContentLoaded', function () {
             for(var i=0;i<24;i++){
                 date.push()
             }
-            var chart = new Chart(ctx, {
+            if(window.bar!= null){
+                window.bar.destroy;
+            }
+            window.bar = new Chart(ctx, {
                 // The type of chart we want to create
                 type: 'line',
                 // The data for our dataset
@@ -125,8 +128,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         label: result.nameFirst,
                         backgroundColor: 'rgb(100, 200, 132)',
                         borderColor: 'rgb(120, 200, 120)',
-                        //data: [10000,20000,30000,40000,50000,60000,70000,80000,90000,100000],
-                        // data: result.chartFirst,
+                        data: result.chartFirst,
                         fill: false
                     },
                     {
@@ -138,23 +140,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 }]
             },
             //Configuration options go here
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            min: minDefault,
-                            max: maxDefault
-                        }
-                    }]
-                }
-            }
+            // options: {
+            //     scales: {
+            //         yAxes: [{
+            //             ticks: {
+            //                 min: result.minDefault,
+            //                 max: 32610
+            //             }
+            //         }]
+            //     }
+            // }
         });
-        dataFirst.sort();
-        dataSecond.sort();
-        var minDefault = Math.min(dataFirst[0],dataFirst[0]);
-        var maxDefault = Math.max(dataFirst[dataFirst.length-1],dataSecond[dataSecond.length-1]);
-
-
 
         // difference chart
         var ctx2 = document.getElementById('myChartDifference').getContext('2d');
@@ -175,16 +171,16 @@ document.addEventListener('DOMContentLoaded', function () {
                     }]
             },
             //Configuration options go here
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            min: minDifferenceDefault,
-                            max: maifferenceDefault
-                        }
-                    }]
-                }
-            }
+            // options: {
+            //     scales: {
+            //         yAxes: [{
+            //             ticks: {
+            //                 min: result.minDifference,
+            //                 max: result.maxDifference
+            //             }
+            //         }]
+            //     }
+            // }
         });
         dataDifference.sort();
         var minDifferenceDefault = dataDifference[0];

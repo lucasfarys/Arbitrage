@@ -4,10 +4,10 @@ import org.json.JSONObject;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import pl.coderslab.app.dto.DataCoinDTO;
-import pl.coderslab.app.model.Exchange;
-import pl.coderslab.app.model.ExchangeCoin;
+import pl.coderslab.app.model.*;
 import pl.coderslab.app.services.DataCoinService;
 import pl.coderslab.app.services.ExchangeService;
+import pl.coderslab.app.services.FavouriteService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,10 +21,13 @@ import java.util.List;
 public class DataController {
     private ExchangeService exchangeService;
     private DataCoinService dataCoinService;
+    FavouriteService favouriteService;
 
-    public DataController(ExchangeService exchangeService, DataCoinService dataCoinService) {
+    public DataController(ExchangeService exchangeService, DataCoinService dataCoinService,
+                          FavouriteService favouriteService) {
         this.exchangeService = exchangeService;
         this.dataCoinService = dataCoinService;
+        this.favouriteService = favouriteService;
     }
 
 
@@ -32,13 +35,13 @@ public class DataController {
     public void getAndSaveData() {
         List<Exchange> exchanges = exchangeService.getExchanges();
         exchanges.forEach(e -> dataCoinService.saveDataCoins(getDataCoins(e)));
-
+        List<Favourite> favourites = favouriteService.finadAll();
+        compareCoins(favourites,exchanges);
     }
 
     private List<DataCoinDTO> getDataCoins(Exchange exchange) {
         List<DataCoinDTO> dataCoinsDTO = new ArrayList<>();
         List<ExchangeCoin> exchangeCoins = exchange.getExchangeCoins();
-        System.out.println("zrobione");
 
         for (ExchangeCoin ex : exchangeCoins) {
             dataCoinsDTO.add(getData(ex, exchange));
@@ -86,5 +89,23 @@ public class DataController {
             }
         }
         return jsonObject;
+    }
+
+    private void compareCoins(List<Favourite> favourites, List<Exchange> exchanges) {
+        DataCoin dataCoinFirst = dataCoinService.getFirstDataCoinByExchangeIdAndCoinId(
+                favourites.get(0).getExchangeFirst().getId(),favourites.get(0).getCoin().getId());
+        favourites.forEach(f->{
+            Double coinValueFirst = dataCoinService.getFirstDataCoinByExchangeIdAndCoinId(f.getExchangeFirst().getId(),
+                    f.getCoin().getId()).getAsk();
+            Double coinValueSecond = dataCoinService.getFirstDataCoinByExchangeIdAndCoinId(f.getExchangeSecond().getId(),
+                    f.getCoin().getId()).getBid();
+            if((coinValueFirst/coinValueSecond-1)>2){
+                sendEmail();
+            }
+        });
+        System.out.println(dataCoinFirst.getAsk());
+    }
+
+    private void sendEmail() {
     }
 }

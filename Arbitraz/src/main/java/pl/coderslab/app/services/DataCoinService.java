@@ -39,7 +39,10 @@ public class DataCoinService {
         return dataCoinRepository.findAllByExchangeCoinExchangeIdAndExchangeCoinCoinId(exchangeId, coinId);
     }
     public List<DataCoin> getFirst24DataCoinByExchangeIdAndCoinId(Long exchangeId, Long coinId) {
-        return dataCoinRepository.findFirst24AllByExchangeCoinExchangeIdAndExchangeCoinCoinIdOrderByCreatedAsc(exchangeId, coinId);
+        return dataCoinRepository.findFirst24AllByExchangeCoinExchangeIdAndExchangeCoinCoinIdOrderByCreatedDesc(exchangeId, coinId);
+    }
+    public DataCoin getFirstDataCoinByExchangeIdAndCoinId(Long exchangeId, Long coinId) {
+        return dataCoinRepository.findFirstAllByExchangeCoinExchangeIdAndExchangeCoinCoinIdOrderByCreatedDesc(exchangeId, coinId);
     }
 
     public Double test(Long id) {
