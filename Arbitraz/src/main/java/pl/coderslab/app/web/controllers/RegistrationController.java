@@ -1,5 +1,6 @@
 package pl.coderslab.app.web.controllers;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,6 +12,7 @@ import pl.coderslab.app.dto.RegistrationFormDTO;
 import pl.coderslab.app.services.RegistrationService;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/register")
@@ -24,7 +26,9 @@ public class RegistrationController {
 
     @GetMapping
     public String prepareRegistrationPage(Model model) {
+        Principal principal = SecurityContextHolder.getContext().getAuthentication();
         model.addAttribute("data", new RegistrationFormDTO());
+        model.addAttribute("principal", principal);
         return "registration";
     }
 

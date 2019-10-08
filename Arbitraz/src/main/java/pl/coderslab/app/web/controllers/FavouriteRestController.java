@@ -29,17 +29,23 @@ public class FavouriteRestController {
     }
 
     @PostMapping("/add")
-    public void saveFavourite(@RequestParam String exchangeFirst, @RequestParam String exchangeSecond,
+    public String saveFavourite(@RequestParam String exchangeFirst, @RequestParam String exchangeSecond,
                               @RequestParam String coin) {
-        FavouriteFormDTO favouriteFormDTO = new FavouriteFormDTO();
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(!("Giełda 1".equals(exchangeFirst) | "Giełda 2".equals(exchangeSecond)| "Kurs".equals(coin))) {
+            FavouriteFormDTO favouriteFormDTO = new FavouriteFormDTO();
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
 
-        favouriteFormDTO.setLogin(authentication.getName());
-        favouriteFormDTO.setExchangeFirst(exchangeService.getExchangeByName(exchangeFirst));
-        favouriteFormDTO.setExchangeSecond(exchangeService.getExchangeByName(exchangeSecond));
-        favouriteFormDTO.setCoin(coinService.getCoinByName(coin));
-        favouriteService.saveFavourite(favouriteFormDTO);
+            favouriteFormDTO.setLogin(authentication.getName());
+            favouriteFormDTO.setExchangeFirst(exchangeService.getExchangeByName(exchangeFirst));
+            favouriteFormDTO.setExchangeSecond(exchangeService.getExchangeByName(exchangeSecond));
+            favouriteFormDTO.setCoin(coinService.getCoinByName(coin));
+            System.out.println(coin);
+            favouriteService.saveFavourite(favouriteFormDTO);
+            System.out.println("odpalone");
+            return "success";
+        }else
+            return "false";
     }
 
     @GetMapping("/select/{exchangeFirst}/{exchangeSecond}")

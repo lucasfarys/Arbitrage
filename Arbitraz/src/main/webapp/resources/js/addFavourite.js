@@ -49,13 +49,16 @@ document.addEventListener('DOMContentLoaded', function () {
             exchangeSecond: exchangeSecond.options[exchangeSecond.selectedIndex].text,
             coin: course.options[course.selectedIndex].text
         }
-        $.ajax({
+        var a = $.ajax({
             url: saveButton.value + "restfavourite/add",
             method: "POST",
             type: 'application/json',
             dataType: 'json',
             data: data,
         })
+        window.setTimeout(function () {
+            window.location.reload();
+        },250);
     })
 });
 

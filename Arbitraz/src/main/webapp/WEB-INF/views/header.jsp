@@ -24,24 +24,28 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <ul class="navbar-nav">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Panel <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Konfiguracja <span class="sr-only">(current)</span></a>
-            </li>
-        </ul>
-        <ul class="navbar-nav  ml-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Logowanie <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Rejestracja <span class="sr-only">(current)</span></a>
-            </li>
-            <c:if test="${username!=null}">
+        <c:if test="${principal!=null}">
+            <ul class="navbar-nav">
                 <li class="nav-item active">
-                    <a class="nav-link btn-outline-success" href="#">Wyloguj<span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="${mainUrl}dashboard">Panel <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="${mainUrl}dashboard/addfavourite">Konfiguracja <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+        </c:if>
+        <ul class="navbar-nav  ml-auto">
+            <c:if test="${principal==null}">
+            <li class="nav-item active">
+                <a class="nav-link" href="${mainUrl}login">Logowanie <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="${mainUrl}register">Rejestracja <span class="sr-only">(current)</span></a>
+            </li>
+            </c:if>
+            <c:if test="${principal!= null}">
+                <li class="nav-item active">
+                    <a class="nav-link btn-outline-success" href="${mainUrl}logout">Wyloguj<span class="sr-only">(current)</span></a>
                 </li>
             </c:if>
         </ul>

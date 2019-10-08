@@ -1,6 +1,7 @@
 package pl.coderslab.app.services;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.coderslab.app.dto.FavouriteFormDTO;
 import pl.coderslab.app.model.Favourite;
 import pl.coderslab.app.repositories.FavouriteRepository;
@@ -8,6 +9,7 @@ import pl.coderslab.app.repositories.FavouriteRepository;
 import java.util.List;
 
 @Service
+@Transactional
 public class FavouriteService {
     private FavouriteRepository favouriteRepository;
 
@@ -30,5 +32,7 @@ public class FavouriteService {
     }
     public List<Favourite> finadAll(){
         return favouriteRepository.findAll();
+    }
+    public void deleteFavouriteById(Long id){favouriteRepository.deleteById(id);
     }
 }

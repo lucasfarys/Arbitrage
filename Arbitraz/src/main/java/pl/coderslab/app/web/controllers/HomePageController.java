@@ -1,5 +1,6 @@
 package pl.coderslab.app.web.controllers;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,8 +9,6 @@ import pl.coderslab.app.services.DataCoinService;
 import pl.coderslab.app.services.ExchangeService;
 
 import java.security.Principal;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 
 @Controller
@@ -23,11 +22,9 @@ public class HomePageController {
     }
 
     @GetMapping
-    public String prepareHomePage(Model model, Principal principal) {
-        String username = principal.getName();
-        model.addAttribute("username", username);
-        String time = LocalDateTime.now().toString();
-        System.out.println(exchangeService.getExchangeById(1L).getExchangeCoins().get(0).getExchange().getId());
+    public String prepareHomePage(Model model) {
+        Principal principal = SecurityContextHolder.getContext().getAuthentication();
+        model.addAttribute("principal", principal);
         return "index";
     }
 }

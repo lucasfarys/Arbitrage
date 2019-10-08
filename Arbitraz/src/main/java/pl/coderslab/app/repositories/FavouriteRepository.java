@@ -8,4 +8,5 @@ import java.util.List;
 public interface FavouriteRepository extends JpaRepository<Favourite,Long> {
     List<Favourite> findAllByLogin(String login);
     Favourite findFirstByLoginOrderByIdDesc(String login);
+    void deleteById(Long id);
 }

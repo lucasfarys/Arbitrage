@@ -1,7 +1,11 @@
 document.addEventListener('DOMContentLoaded', function () {
     var exchange = document.getElementById("exchangeSelected");
+    var chart1;
+    var chart2;
     exchange.addEventListener("change", function (ev) {
         var exchangeSelected = exchange.options[exchange.selectedIndex].text;
+
+
         // two chart on change
 
         $.ajax({
@@ -15,14 +19,15 @@ document.addEventListener('DOMContentLoaded', function () {
             var ctx = document.getElementById('myChart').getContext('2d');
             var dataFirst = result.chartFirst;
             var dataSecond = result.chartSecond;
+            ctx = document.getElementById("myChart").getContext('2d');
             var date = [];
             for(var i=0;i<24;i++){
                 date.push()
             }
-            if(window.bar!= null){
-                window.bar.destroy;
+            if(chart1!=null){
+                chart1.destroy();
             }
-            window.bar = new Chart(ctx, {
+            chart1 = new Chart(ctx, {
                 // The type of chart we want to create
                 type: 'line',
                 // The data for our dataset
@@ -66,7 +71,10 @@ document.addEventListener('DOMContentLoaded', function () {
             // difference chart
             var ctx2 = document.getElementById('myChartDifference').getContext('2d');
             var dataDifference = result.chartDifference;
-            var chart2 = new Chart(ctx2, {
+            if(chart2 != null){
+                chart2.destroy();
+            }
+            chart2 = new Chart(ctx2, {
                 // The type of chart we want to create
                 type: 'line',
                 // The data for our dataset
@@ -117,7 +125,10 @@ document.addEventListener('DOMContentLoaded', function () {
         for(var i=0;i<24;i++){
             date.push()
         }
-        var chart = new Chart(ctx, {
+        if(chart1!= null){
+            chart1.destroy();
+        }
+        chart1 = new Chart(ctx, {
             // The type of chart we want to create
             type: 'line',
             // The data for our dataset
@@ -152,10 +163,13 @@ document.addEventListener('DOMContentLoaded', function () {
             // }
         });
 
-        // difference chart
+    //     // difference chart
         var ctx2 = document.getElementById('myChartDifference').getContext('2d');
         var dataDifference = result.chartDifference;
-        var chart2 = new Chart(ctx2, {
+        if(chart2!=null){
+            chart2.destroy();
+        }
+        chart2= new Chart(ctx2, {
             // The type of chart we want to create
             type: 'line',
             // The data for our dataset
@@ -187,7 +201,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var maifferenceDefault = dataDifference[dataDifference.length-1];
     }).fail(function (xhr, status, err) {
     }).always(function (xhr, status) {
-    });
+        });
 });
 
 

@@ -92,8 +92,6 @@ public class DataController {
     }
 
     private void compareCoins(List<Favourite> favourites, List<Exchange> exchanges) {
-        DataCoin dataCoinFirst = dataCoinService.getFirstDataCoinByExchangeIdAndCoinId(
-                favourites.get(0).getExchangeFirst().getId(),favourites.get(0).getCoin().getId());
         favourites.forEach(f->{
             Double coinValueFirst = dataCoinService.getFirstDataCoinByExchangeIdAndCoinId(f.getExchangeFirst().getId(),
                     f.getCoin().getId()).getAsk();
@@ -103,9 +101,9 @@ public class DataController {
                 sendEmail();
             }
         });
-        System.out.println(dataCoinFirst.getAsk());
     }
 
     private void sendEmail() {
+        System.out.println("send email");
     }
 }

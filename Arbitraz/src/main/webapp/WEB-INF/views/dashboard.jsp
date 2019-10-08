@@ -22,8 +22,8 @@
             </c:forEach>
         </select>
     </div>
-    <div class="container">
-        <canvas class="my-4 w-100 chartjs-render-monitor" style="display: block" id="myChart"></canvas>
+    <div class="container" id="chartContainer">
+        <canvas id="myChart"></canvas>
     </div>
     <div class="container">
         <canvas id="myChartDifference"></canvas>

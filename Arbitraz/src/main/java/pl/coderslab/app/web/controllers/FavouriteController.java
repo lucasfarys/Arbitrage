@@ -9,10 +9,12 @@ import pl.coderslab.app.services.CoinService;
 import pl.coderslab.app.services.ExchangeService;
 import pl.coderslab.app.services.FavouriteService;
 
+import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping("/dashboard/addfavourite")
+@RequestMapping("/dashboard")
 public class FavouriteController {
     private FavouriteService favouriteService;
     private ExchangeService exchangeService;
@@ -25,12 +27,26 @@ public class FavouriteController {
         this.exchangeService = exchangeService;
     }
 
-    @GetMapping
+    @GetMapping("/addfavourite")
     public String prepareFavourite( Model model){
-        List<Favourite> favourites = favouriteService.fiandAllFavouritesByLogin(
-                SecurityContextHolder.getContext().getAuthentication().getName());
+        Principal principal = SecurityContextHolder.getContext().getAuthentication();
+        List<Favourite> favourites = favouriteService.fiandAllFavouritesByLogin(principal.getName());
+//        List<String> favouriteCoinList = new ArrayList<>();
+//        favourites.forEach(f->{
+//            favouriteCoinList.add(f.getExchangeFirst().getName() + " | " + f.getExchangeSecond().getName() +
+//                                    " | " + f.getCoin().getCoinName());
+//        });
+
         model.addAttribute("exchange", exchangeService.getExchanges());
         model.addAttribute("coins",coinService.findAllCoins());
+        model.addAttribute("principal",principal);
+        model.addAttribute("favouriteCoinList",favourites);
         return "addFavourite";
+    }
+    @GetMapping("/delfavourite/{id}")
+    public String deleteFavourite(@PathVariable Long id){
+        System.out.println(id);
+        favouriteService.deleteFavouriteById(id);
+        return "redirect:/dashboard/addfavourite";
     }
 }
