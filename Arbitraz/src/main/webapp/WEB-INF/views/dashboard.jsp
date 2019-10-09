@@ -32,5 +32,4 @@
     <jsp:include page="footer.jsp"/>
     <script src="${mainUrl}resources/js/lineChart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-    <link rel="stylesheet" href="${mainUrl}resources/css/css2.css"/>
 </html>

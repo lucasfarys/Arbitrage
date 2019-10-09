@@ -56,7 +56,9 @@
                                  | ${favourite.coin.coinName}</td>
                             <td>
                                 <a role="button"  class="btn btn-link" id="dasboardButton"
-                                   href="${mainUrl}dashboard/delfavourite/${favourite.id}">Usuń</a>
+                                   href="${mainUrl}dashboard/delfavourite/${favourite.id}">
+                                    <i class="fas fa-trash" style="color: grey"></i>
+                                </a>
                             </td>
                         </tr>
                     </c:forEach>

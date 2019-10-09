@@ -50,22 +50,22 @@ document.addEventListener('DOMContentLoaded', function () {
                         }]
                 },
                 //Configuration options go here
-                options: {
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                min: minDefault,
-                                max: maxDefault
-                            }
-                        }]
-                    }
-                }
+                // options: {
+                //     scales: {
+                //         yAxes: [{
+                //             ticks: {
+                //                 min: minDefault,
+                //                 max: maxDefault
+                //             }
+                //         }]
+                //     }
+                // }
             });
-            dataFirst.sort();
-            dataSecond.sort();
-            var minDefault = Math.min(dataFirst[0],dataFirst[0]);
-            var maxDefault = Math.max(dataFirst[dataFirst.length-1],dataSecond[dataSecond.length-1]);
-
+            // dataFirst.sort();
+            // dataSecond.sort();
+            // var minDefault = Math.min(dataFirst[0],dataFirst[0]);
+            // var maxDefault = Math.max(dataFirst[dataFirst.length-1],dataSecond[dataSecond.length-1]);
+            //
 
 
             // difference chart
@@ -89,21 +89,21 @@ document.addEventListener('DOMContentLoaded', function () {
                             fill: false
                         }]
                 },
-                //Configuration options go here
-                options: {
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                min: minDifferenceDefault,
-                                max: maifferenceDefault
-                            }
-                        }]
-                    }
-                }
+                // //Configuration options go here
+                // options: {
+                //     scales: {
+                //         yAxes: [{
+                //             ticks: {
+                //                 min: minDifferenceDefault,
+                //                 max: maifferenceDefault
+                //             }
+                //         }]
+                //     }
+                // }
             });
-            dataDifference.sort();
-            var minDifferenceDefault = dataDifference[0];
-            var maifferenceDefault = dataDifference[dataDifference.length-1];
+            // dataDifference.sort();
+            // var minDifferenceDefault = dataDifference[0];
+            // var maifferenceDefault = dataDifference[dataDifference.length-1];
         }).fail(function (xhr, status, err) {
         }).always(function (xhr, status) {
         });
@@ -196,9 +196,9 @@ document.addEventListener('DOMContentLoaded', function () {
             //     }
             // }
         });
-        dataDifference.sort();
-        var minDifferenceDefault = dataDifference[0];
-        var maifferenceDefault = dataDifference[dataDifference.length-1];
+        // dataDifference.sort();
+        // var minDifferenceDefault = dataDifference[0];
+        // var maifferenceDefault = dataDifference[dataDifference.length-1];
     }).fail(function (xhr, status, err) {
     }).always(function (xhr, status) {
         });

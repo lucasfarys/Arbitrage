@@ -28,7 +28,6 @@ public class RegistrationController {
     public String prepareRegistrationPage(Model model) {
         Principal principal = SecurityContextHolder.getContext().getAuthentication();
         model.addAttribute("data", new RegistrationFormDTO());
-        model.addAttribute("principal", principal);
         return "registration";
     }
 

@@ -67,7 +67,6 @@ public class ChartRestController {
         List<DataCoin> dataCoinsSecond = dataCoinService.getFirst24DataCoinByExchangeIdAndCoinId(
                 exchangeSecond.getId(),coinId);
 
-
         List<Double> dataFirst = new ArrayList<>();
         List<Double> dataSecond = new ArrayList<>();
         List<Double> dataDifference = new ArrayList<>();
@@ -77,16 +76,22 @@ public class ChartRestController {
             dataFirst.add(d.getAsk());
             date.add(d.getCreated().getHour());
         });
-        dataCoinsSecond.forEach(d->dataSecond.add(d.getBid()));
-
-        for (int i = 0; i < dataFirst.size(); i++) {
-            dataDifference.add(dataFirst.get(i)/dataSecond.get(i)-1);
-        }
+        dataCoinsSecond.forEach(d->{dataSecond.add(d.getBid());
+        });
 
         Collections.reverse(dataFirst);
         Collections.reverse(dataSecond);
         Collections.reverse(date);
-        Collections.reverse(dataDifference);
+
+        for (int i = 0; i < dataFirst.size(); i++) {
+            dataDifference.add(Math.abs(dataSecond.get(i)/(dataFirst.get(i))-1)*100);
+            System.out.println(dataFirst.get(i));
+            System.out.println(dataSecond.get(i));
+            System.out.println(Math.abs(dataSecond.get(i)/(dataFirst.get(i))-1)*100);
+        }
+
+
+//        Collections.reverse(dataDifference);
 
         json.put("chartFirst",dataFirst);
         json.put("chartSecond",dataSecond);
