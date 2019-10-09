@@ -10,10 +10,7 @@ import pl.coderslab.app.model.Coin;
 import pl.coderslab.app.model.DataCoin;
 import pl.coderslab.app.model.Exchange;
 import pl.coderslab.app.model.Favourite;
-import pl.coderslab.app.services.CoinService;
-import pl.coderslab.app.services.DataCoinService;
-import pl.coderslab.app.services.ExchangeService;
-import pl.coderslab.app.services.FavouriteService;
+import pl.coderslab.app.services.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,13 +24,16 @@ public class ChartRestController {
     private ExchangeService exchangeService;
     private FavouriteService favouriteService;
     private CoinService coinService;
+    private DataService dataService;
 
     public ChartRestController(DataCoinService dataCoinService, ExchangeService exchangeService,
-                               FavouriteService favouriteService, CoinService coinService) {
+                               FavouriteService favouriteService, CoinService coinService,
+                               DataService dataService) {
         this.dataCoinService = dataCoinService;
         this.exchangeService = exchangeService;
         this.favouriteService = favouriteService;
         this.coinService = coinService;
+        this.dataService = dataService;
     }
 
     @GetMapping
@@ -41,7 +41,7 @@ public class ChartRestController {
         Favourite lastAddedFavourite = favouriteService.findLastAddedFavourite(
                 SecurityContextHolder.getContext().getAuthentication().getName());
 
-        JSONObject json = getJson(lastAddedFavourite.getExchangeFirst().getName(),
+        JSONObject json = dataService.getJson(lastAddedFavourite.getExchangeFirst().getName(),
                 lastAddedFavourite.getExchangeSecond().getName(),lastAddedFavourite.getCoin().getId());
         return json.toString();
     }
@@ -54,52 +54,6 @@ public class ChartRestController {
         String exchangeSecond = exchangeSel[1];
         String coinName = exchangeSel[2];
         Coin coin = coinService.getCoinByName(coinName);
-        return getJson(exchangeFirst,exchangeSecond,coin.getId()).toString();
+        return dataService.getJson(exchangeFirst,exchangeSecond,coin.getId()).toString();
     }
-
-    private JSONObject getJson(String exchangeFirstName, String exchangeSecondName, Long coinId) {
-        Exchange exchangeFirst = exchangeService.getExchangeByName(exchangeFirstName);
-        Exchange exchangeSecond = exchangeService.getExchangeByName(exchangeSecondName);
-
-        JSONObject json = new JSONObject();
-        List<DataCoin> dataCoinsFirst = dataCoinService.getFirst24DataCoinByExchangeIdAndCoinId(
-                exchangeFirst.getId(),coinId);
-        List<DataCoin> dataCoinsSecond = dataCoinService.getFirst24DataCoinByExchangeIdAndCoinId(
-                exchangeSecond.getId(),coinId);
-
-        List<Double> dataFirst = new ArrayList<>();
-        List<Double> dataSecond = new ArrayList<>();
-        List<Double> dataDifference = new ArrayList<>();
-        List<Integer> date = new ArrayList<>();
-
-        dataCoinsFirst.forEach(d->{
-            dataFirst.add(d.getAsk());
-            date.add(d.getCreated().getHour());
-        });
-        dataCoinsSecond.forEach(d->{dataSecond.add(d.getBid());
-        });
-
-        Collections.reverse(dataFirst);
-        Collections.reverse(dataSecond);
-        Collections.reverse(date);
-
-        for (int i = 0; i < dataFirst.size(); i++) {
-            dataDifference.add(Math.abs(dataSecond.get(i)/(dataFirst.get(i))-1)*100);
-            System.out.println(dataFirst.get(i));
-            System.out.println(dataSecond.get(i));
-            System.out.println(Math.abs(dataSecond.get(i)/(dataFirst.get(i))-1)*100);
-        }
-
-
-//        Collections.reverse(dataDifference);
-
-        json.put("chartFirst",dataFirst);
-        json.put("chartSecond",dataSecond);
-        json.put("date",date);
-        json.put("nameFirst", exchangeFirst.getName());
-        json.put("nameSecond", exchangeSecond.getName());
-        json.put("chartDifference",dataDifference);
-        return json;
-    }
-
 }

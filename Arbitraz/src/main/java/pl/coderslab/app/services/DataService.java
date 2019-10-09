@@ -4,19 +4,21 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import pl.coderslab.app.dto.DataCoinDTO;
+import pl.coderslab.app.model.DataCoin;
 import pl.coderslab.app.model.Exchange;
 import pl.coderslab.app.model.ExchangeCoin;
 import pl.coderslab.app.model.Favourite;
 
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class DataService {
@@ -117,14 +119,102 @@ public class DataService {
                     f.getCoin().getId()).getAsk();
             Double coinValueSecond = dataCoinService.getFirstDataCoinByExchangeIdAndCoinId(f.getExchangeSecond().getId(),
                     f.getCoin().getId()).getBid();
-            if((coinValueFirst/coinValueSecond-1)>2){
-                sendEmail();
+
+            if((coinValueFirst/coinValueSecond-1)*100>2){
+                String msg = "Powiadomienie o mozliwości zyskownej transakcji:\n " +
+                        f.getExchangeFirst().getName() + " | " + f.getExchangeSecond().getName() + " | " +
+                        f.getCoin().getCoinName() + " | \n" + String.format("%.8f",coinValueFirst) + " | " +
+                        f.getCoin().getCoinName() + " | " + String.format("%.8f",coinValueSecond) + " | " +
+                        f.getCoin().getCoinName();
+                String subject ="Okazja " + f.getCoin().getCoinName() +
+                        " | " + f.getExchangeFirst().getName() + " | " + f.getExchangeSecond().getName();
+
+
+
+                //chwilowo wyłączony
+//                sendEmail(msg,subject);
             }
         });
     }
 
+    public JSONObject getJson(String exchangeFirstName, String exchangeSecondName, Long coinId) {
+        Exchange exchangeFirst = exchangeService.getExchangeByName(exchangeFirstName);
+        Exchange exchangeSecond = exchangeService.getExchangeByName(exchangeSecondName);
 
-    private void sendEmail() {
-        System.out.println("send email");
+        JSONObject json = new JSONObject();
+        List<DataCoin> dataCoinsFirst = dataCoinService.getFirst24DataCoinByExchangeIdAndCoinId(
+                exchangeFirst.getId(),coinId);
+        List<DataCoin> dataCoinsSecond = dataCoinService.getFirst24DataCoinByExchangeIdAndCoinId(
+                exchangeSecond.getId(),coinId);
+
+        List<Double> dataFirst = new ArrayList<>();
+        List<Double> dataSecond = new ArrayList<>();
+        List<Double> dataDifference = new ArrayList<>();
+        List<Integer> date = new ArrayList<>();
+
+        dataCoinsFirst.forEach(d->{
+            dataFirst.add(d.getAsk());
+            date.add(d.getCreated().getHour());
+        });
+        dataCoinsSecond.forEach(d->{dataSecond.add(d.getBid());
+        });
+
+        Collections.reverse(dataFirst);
+        Collections.reverse(dataSecond);
+        Collections.reverse(date);
+
+        for (int i = 0; i < dataFirst.size(); i++) {
+            dataDifference.add(Math.abs(dataSecond.get(i)/(dataFirst.get(i))-1)*100);
+        }
+        json.put("chartFirst",dataFirst);
+        json.put("chartSecond",dataSecond);
+        json.put("date",date);
+        json.put("nameFirst", exchangeFirst.getName());
+        json.put("nameSecond", exchangeSecond.getName());
+        json.put("chartDifference",dataDifference);
+        return json;
+    }
+    private void sendEmail(String msg, String subject) {
+
+        String to = "lukaszfarys@gmail.com";//change accordingly
+
+        String from = "lukaszfarys@gmail.com";//change accordingly
+        final String username = "lukaszfarys@gmail.com";//change accordingly
+        final String password = "xxx";//change accordingly
+
+        String host = "smtp.gmail.com";
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", host);
+        props.put("mail.smtp.port", 587);
+        props.put("mail.smtp.socketFactory.port", "465");
+        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        props.put("mail.smtp.socketFactory.fallback", "false");
+
+        Session session = Session.getInstance(props,
+                new javax.mail.Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(username, password);
+                    }
+                });
+        try {
+
+            Message message = new MimeMessage(session);
+
+            message.setFrom(new InternetAddress(from));
+
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse(to));
+
+            message.setSubject(subject);
+
+            message.setText(msg);
+
+            Transport.send(message);
+            System.out.println("Sent message successfully....");
+        } catch (MessagingException e) {
+            System.out.println(e);
+        }
     }
 }

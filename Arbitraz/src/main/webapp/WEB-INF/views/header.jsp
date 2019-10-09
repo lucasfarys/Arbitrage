@@ -20,7 +20,7 @@
 
 <c:url value="/" var="mainUrl"/>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="${mainUrl}"><i class="fab fa-bitcoin"></i>Arbitraż</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -55,4 +55,4 @@
             </c:if>
         </ul>
     </div>
-</nav>
+</nav><br><br>

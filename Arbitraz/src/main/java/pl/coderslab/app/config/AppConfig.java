@@ -17,7 +17,6 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
-import pl.coderslab.app.exchange.Exchange;
 
 import javax.persistence.EntityManagerFactory;
 import javax.validation.Validator;
@@ -49,60 +48,6 @@ public class AppConfig extends WebMvcConfigurerAdapter {
         return new LocalValidatorFactoryBean();
     }
 
-    @Bean
-    public Exchange bitbay(){
-        String name = "Bitbay";
-
-        Map<String,String> url = new HashMap<>();
-        url.put("prefix","https://bitbay.net/API/Public/");
-        url.put("suffix","/ticker.json");
-
-        Map<String,String> coins = new HashMap<>();
-        coins.put("BTCPLN","BTCPLN");
-        coins.put("BTCETH","ETHBTC");
-        coins.put("ETHPLN","ETHPLN");
-
-        List<String> coinsName = new ArrayList<>();
-        coinsName.add("BTCPLN");
-        coinsName.add("BTCETH");
-        coinsName.add("ETHPLN");
-
-
-        Map<String, Double> feesWithdrawCoin = new HashMap<>();
-        feesWithdrawCoin.put("ETHBTC", 0.00045);
-
-        Exchange bitbay = new Exchange();
-        bitbay.setName(name);
-        bitbay.setUrl(url);
-        bitbay.setCoins(coins);
-        bitbay.setCoinsName(coinsName);
-        return bitbay;
-    }
-    @Bean
-    public Exchange bittrex(){
-        String name = "Bittrex";
-
-        Map<String,String> url = new HashMap<>();
-
-        url.put("prefix", "https://api.bittrex.com/api/v1.1/public/getticker?market=");
-        url.put("suffix","");
-
-        Map<String,String> coins = new HashMap<>();
-        coins.put("BTCETH","BTC-ETH");
-
-        List<String> coinsName = new ArrayList<>();
-        coinsName.add("BTCETH");
-        coinsName.add("BTCPLN");
-
-        Double feePorcentMaker = 0.25;
-
-        Exchange bittrex = new Exchange();
-        bittrex.setName(name);
-        bittrex.setUrl(url);
-        bittrex.setCoins(coins);
-        bittrex.setCoinsName(coinsName);
-        return bittrex;
-    }
     @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         configurer.enable();
