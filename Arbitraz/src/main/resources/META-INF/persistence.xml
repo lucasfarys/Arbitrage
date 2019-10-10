@@ -5,6 +5,8 @@
              version="2.1">
     <persistence-unit name="arbitrazPU">
         <properties>
+            <property name="hibernate.jdbc.time_zone" value="UTC"/>
+
             <property name="javax.persistence.jdbc.url"
                       value="jdbc:mysql://localhost:3306/arbitraz"/>
             <property name="javax.persistence.jdbc.user" value="root"/>

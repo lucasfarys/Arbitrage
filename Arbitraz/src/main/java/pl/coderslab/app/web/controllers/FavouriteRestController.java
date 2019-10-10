@@ -6,7 +6,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.app.dto.FavouriteFormDTO;
+import pl.coderslab.app.model.Exchange;
+import pl.coderslab.app.model.ExchangeCoin;
+import pl.coderslab.app.repositories.ExchangeCoinRepository;
 import pl.coderslab.app.services.CoinService;
+import pl.coderslab.app.services.DataService;
 import pl.coderslab.app.services.ExchangeService;
 import pl.coderslab.app.services.FavouriteService;
 
@@ -20,12 +24,17 @@ public class FavouriteRestController {
     private FavouriteService favouriteService;
     private ExchangeService exchangeService;
     private CoinService coinService;
+    private DataService dataService;
+    private ExchangeCoinRepository exchangeCoinRepository;
 
-    public FavouriteRestController(FavouriteService favouriteService,
-                                   ExchangeService exchangeService, CoinService coinService) {
+    public FavouriteRestController(FavouriteService favouriteService,ExchangeService exchangeService,
+                                   CoinService coinService, DataService dataService,
+                                   ExchangeCoinRepository exchangeCoinRepository) {
         this.favouriteService = favouriteService;
         this.exchangeService = exchangeService;
         this.coinService = coinService;
+        this.dataService = dataService;
+        this.exchangeCoinRepository = exchangeCoinRepository;
     }
 
     @PostMapping("/add")
@@ -40,7 +49,6 @@ public class FavouriteRestController {
             favouriteFormDTO.setExchangeFirst(exchangeService.getExchangeByName(exchangeFirst));
             favouriteFormDTO.setExchangeSecond(exchangeService.getExchangeByName(exchangeSecond));
             favouriteFormDTO.setCoin(coinService.getCoinByName(coin));
-            System.out.println(coin);
             favouriteService.saveFavourite(favouriteFormDTO);
             id = favouriteService.findLastAddedFavourite(authentication.getName()).getId();
         }
@@ -69,5 +77,40 @@ public class FavouriteRestController {
             jsonObject.put("coinNames", coinNames);
         }
         return jsonObject.toString();
+    }
+    @PostMapping("/addNewUniqueCoin")
+    public String addNewUniqueCoin(@RequestParam String coinName, @RequestParam Long exchangeId,
+                             @RequestParam Long coinId){
+        JSONObject jsonObject = dataService.getJson(coinName.toUpperCase(),exchangeService.getExchangeById(exchangeId));
+            if((1==exchangeId & jsonObject.isNull("message")) |
+                (2==exchangeId & !jsonObject.isNull("result")) |
+                (3==exchangeId & !jsonObject.isNull("timestamp")) |
+                (4==exchangeId & !jsonObject.isNull("symbol"))) {
+                System.out.println(jsonObject);
+                ExchangeCoin exchangeCoin = new ExchangeCoin();
+                exchangeCoin.setUniqueName(coinName.toUpperCase());
+                exchangeCoin.setCoin(coinService.getCoinById(coinId));
+                exchangeCoin.setExchange(exchangeService.getExchangeById(exchangeId));
+                exchangeCoinRepository.save(exchangeCoin);
+                return coinName.toUpperCase();
+            }
+            JSONObject json = new JSONObject();
+            json.put("coinName",coinName.toUpperCase());
+            return "false";
+    }
+    @GetMapping("/getCoins")
+    public String getExchangeCoinsByExchange(@RequestParam Long id){
+        JSONObject jsonObject = new JSONObject();
+        Exchange exchange = exchangeService.getExchangeById(id);
+        List<String> coinsName = new ArrayList<>();
+        exchange.getExchangeCoins().forEach(e->coinsName.add(e.getCoin().getCoinName()));
+        jsonObject.put("coinsName",coinsName);
+        return jsonObject.toString();
+    }
+    @PostMapping("/addNewCoin")
+    public void addNewCoin(@RequestParam String name){
+        if(name!=null){
+            coinService.addNewCoin(name);
+        }
     }
 }

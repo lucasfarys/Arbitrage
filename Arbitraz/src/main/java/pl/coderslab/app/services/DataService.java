@@ -26,7 +26,8 @@ public class DataService {
     private DataCoinService dataCoinService;
     private FavouriteService favouriteService;
 
-    public DataService(ExchangeService exchangeService, DataCoinService dataCoinService, FavouriteService favouriteService) {
+    public DataService(ExchangeService exchangeService, DataCoinService dataCoinService,
+                       FavouriteService favouriteService) {
         this.exchangeService = exchangeService;
         this.dataCoinService = dataCoinService;
         this.favouriteService = favouriteService;
@@ -50,10 +51,11 @@ public class DataService {
     }
     private DataCoinDTO getData(ExchangeCoin ex, Exchange exchange) {
         DataCoinDTO dataCoinDTO = new DataCoinDTO();
-        JSONObject jsonObject = getJson(ex,exchange);
+        JSONObject jsonObject = getJson(ex.getUniqueName(),exchange);
         dataCoinDTO.setExchangeCoin(ex);
+
         // for Bittrex
-        if(jsonObject.isNull("ask")) {
+        if("Bittrex".equals(exchange.getName())) {
             dataCoinDTO.setAsk(jsonObject.getJSONObject("result").getDouble("Ask"));
             dataCoinDTO.setBid(jsonObject.getJSONObject("result").getDouble("Bid"));
         }
@@ -62,22 +64,28 @@ public class DataService {
             dataCoinDTO.setAsk(jsonObject.getDouble("ask"));
             dataCoinDTO.setBid(jsonObject.getDouble("bid"));
         }
-        else{
+        // for Binance
+        else if("Binance".equals(exchange.getName())) {
+            dataCoinDTO.setAsk(jsonObject.getDouble("askPrice"));
+            dataCoinDTO.setBid(jsonObject.getDouble("bidPrice"));
+        }
+        else if("Bitbay".equals(exchange.getName())){
             dataCoinDTO.setAsk(jsonObject.getDouble("ask"));
             dataCoinDTO.setBid(jsonObject.getDouble("bid"));
         }
         return dataCoinDTO;
     }
-    public JSONObject getJson (ExchangeCoin ex, Exchange exchange){
-        String coinName = ex.getUniqueName();
+    public JSONObject getJson(String coinName, Exchange exchange){
         BufferedReader reader = null;
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray;
-        if("HitBTC".equals(exchange.getName())){
-            coinName ="";
+        String urlCoinName =  coinName;
+        //for HitBTC & Binance
+        if("HitBTC".equals(exchange.getName()) | "Binance".equals(exchange.getName())){
+            urlCoinName ="";
         }
         try {
-            URL url = new URL(exchange.getAddressUrlPrefix() + coinName +
+            URL url = new URL(exchange.getAddressUrlPrefix() + urlCoinName +
                     exchange.getAddressUrlSuffix());
             reader = new BufferedReader(new InputStreamReader(url.openStream()));
             StringBuffer buffer = new StringBuffer();
@@ -85,13 +93,11 @@ public class DataService {
             char[] chars = new char[1024];
             while ((read = reader.read(chars)) != -1)
                 buffer.append(chars, 0, read);
-
-
-            // for HitBTC
-            if(exchange.getName().equals("HitBTC")){
+            // for HitBTC & Binance
+            if("HitBTC".equals(exchange.getName()) | "Binance".equals(exchange.getName())){
                 jsonArray = new JSONArray(buffer.toString());
                 for (int i = 0; i < jsonArray.length() - 1; i++) {
-                    if(jsonArray.getJSONObject(i).getString("symbol").equals(ex.getUniqueName())){
+                    if(jsonArray.getJSONObject(i).getString("symbol").equals(coinName)){
                         jsonObject = jsonArray.getJSONObject(i);
                     }
                 }
@@ -137,10 +143,10 @@ public class DataService {
         });
     }
 
-    public JSONObject getJson(String exchangeFirstName, String exchangeSecondName, Long coinId) {
+    public JSONObject createJson(String exchangeFirstName, String exchangeSecondName, Long coinId) {
         Exchange exchangeFirst = exchangeService.getExchangeByName(exchangeFirstName);
         Exchange exchangeSecond = exchangeService.getExchangeByName(exchangeSecondName);
-
+        String satoshi = "";
         JSONObject json = new JSONObject();
         List<DataCoin> dataCoinsFirst = dataCoinService.getFirst24DataCoinByExchangeIdAndCoinId(
                 exchangeFirst.getId(),coinId);
@@ -153,16 +159,25 @@ public class DataService {
         List<Integer> date = new ArrayList<>();
 
         dataCoinsFirst.forEach(d->{
-            dataFirst.add(d.getAsk());
+            if(d.getAsk()<0.01){
+                dataFirst.add(d.getAsk()*100000000);
+            }else{
+                dataFirst.add(d.getAsk());
+            }
             date.add(d.getCreated().getHour());
         });
-        dataCoinsSecond.forEach(d->{dataSecond.add(d.getBid());
-        });
-
+        dataCoinsSecond.forEach(d->{
+            if(d.getBid()<0.01){
+                dataSecond.add(d.getBid()*100000000);
+            }else{
+                dataSecond.add(d.getBid());
+                }});
+        if(dataCoinsFirst.get(0).getAsk()<0.001){
+            satoshi = "  Wyswietlana jednostka:  satoshi";
+        }
         Collections.reverse(dataFirst);
         Collections.reverse(dataSecond);
         Collections.reverse(date);
-
         for (int i = 0; i < dataFirst.size(); i++) {
             dataDifference.add(Math.abs(dataSecond.get(i)/(dataFirst.get(i))-1)*100);
         }
@@ -172,8 +187,10 @@ public class DataService {
         json.put("nameFirst", exchangeFirst.getName());
         json.put("nameSecond", exchangeSecond.getName());
         json.put("chartDifference",dataDifference);
+        json.put("satoshi",satoshi);
         return json;
     }
+
     private void sendEmail(String msg, String subject) {
 
         String to = "lukaszfarys@gmail.com";//change accordingly

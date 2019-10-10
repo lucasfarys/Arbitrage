@@ -4,6 +4,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import pl.coderslab.app.model.Coin;
+import pl.coderslab.app.model.Exchange;
 import pl.coderslab.app.model.Favourite;
 import pl.coderslab.app.model.User;
 import pl.coderslab.app.services.CoinService;
@@ -15,7 +17,7 @@ import java.security.Principal;
 import java.util.List;
 
 @Controller
-@RequestMapping("/dashboard")
+@RequestMapping()
 public class FavouriteController {
     private FavouriteService favouriteService;
     private ExchangeService exchangeService;
@@ -46,6 +48,19 @@ public class FavouriteController {
     public String deleteFavourite(@PathVariable Long id){
         System.out.println(id);
         favouriteService.deleteFavouriteById(id);
-        return "redirect:/dashboard/addfavourite";
+        return "redirect:/addfavourite";
+    }
+    @GetMapping("/addNewCoin")
+    public String prepareAddNewCoin(Model model){
+        Principal principal = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByEmail(principal.getName());
+        List<Exchange> exchanges = exchangeService.getExchanges();
+        List<Coin> coins = coinService.findAllCoins();
+
+        model.addAttribute("principal",principal);
+        model.addAttribute("name",user.getFirstName());
+        model.addAttribute("exchanges",exchanges);
+        model.addAttribute("coins",coins);
+        return "addNewCoin";
     }
 }

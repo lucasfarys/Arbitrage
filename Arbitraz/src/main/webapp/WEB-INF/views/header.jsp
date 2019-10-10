@@ -21,7 +21,7 @@
 <c:url value="/" var="mainUrl"/>
 
 <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="${mainUrl}"><i class="fab fa-bitcoin"></i>Arbitraż</a>
+    <a class="navbar-brand" href="${mainUrl}"><i class="fab fa-bitcoin"></i> Arbitraż</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -32,7 +32,10 @@
                     <a class="nav-link" href="${mainUrl}dashboard">Panel <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="${mainUrl}dashboard/addfavourite">Konfiguracja <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="${mainUrl}addfavourite">Konfiguracja <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="${mainUrl}addNewCoin">Dodaj nowy coin <span class="sr-only">(current)</span></a>
                 </li>
             </ul>
         </c:if>

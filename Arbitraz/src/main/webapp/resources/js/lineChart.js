@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             fill: false
                         },
                         {
-                            label: result.nameSecond,
+                            label: (result.nameSecond + result.satoshi),
                             backgroundColor: 'rgb(100, 99, 132)',
                             borderColor: 'rgb(120, 120, 120)',
                             data: result.chartSecond,
@@ -61,12 +61,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 //     }
                 // }
             });
-            // dataFirst.sort();
-            // dataSecond.sort();
-            // var minDefault = Math.min(dataFirst[0],dataFirst[0]);
-            // var maxDefault = Math.max(dataFirst[dataFirst.length-1],dataSecond[dataSecond.length-1]);
-            //
-
 
             // difference chart
             var ctx2 = document.getElementById('myChartDifference').getContext('2d');
@@ -143,7 +137,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         fill: false
                     },
                     {
-                    label: result.nameSecond,
+                    label: (result.nameSecond + result.satoshi),
                     backgroundColor: 'rgb(100, 99, 132)',
                     borderColor: 'rgb(120, 120, 120)',
                     data: result.chartSecond,
@@ -196,9 +190,6 @@ document.addEventListener('DOMContentLoaded', function () {
             //     }
             // }
         });
-        // dataDifference.sort();
-        // var minDifferenceDefault = dataDifference[0];
-        // var maifferenceDefault = dataDifference[dataDifference.length-1];
     }).fail(function (xhr, status, err) {
     }).always(function (xhr, status) {
         });
