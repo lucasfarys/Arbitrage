@@ -13,7 +13,7 @@ public interface DataCoinRepository extends JpaRepository<DataCoin,Long> {
     List<DataCoin> findAllByExchangeCoinExchangeIdAndExchangeCoinCoinId(Long exchangeId, Long coinId);
     List<DataCoin> findFirst24AllByExchangeCoinExchangeIdAndExchangeCoinCoinIdOrderByCreatedDesc(Long exchangeId, Long coinId);
     DataCoin findFirstAllByExchangeCoinExchangeIdAndExchangeCoinCoinIdOrderByCreatedDesc(Long exchangeId, Long coinId);
-
+    List<DataCoin> findFirst24AllByOrderByCreatedDesc();
 
     @Query(nativeQuery = true,value = "SELECT value from dataCoins where id=?")
     Double test(Long id);

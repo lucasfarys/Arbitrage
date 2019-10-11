@@ -32,6 +32,9 @@
                     <a class="nav-link" href="${mainUrl}dashboard">Panel <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item active">
+                    <a class="nav-link" href="${mainUrl}compareAllCoins">Lista walut <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
                     <a class="nav-link" href="${mainUrl}addfavourite">Konfiguracja <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item active">

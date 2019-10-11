@@ -40,6 +40,9 @@
         <center>
             <button type="button" class="btn btn-dark" style="min-width: 200px" id="saveButton" value="${mainUrl}">Dodaj</button>
         </center><br><br>
+        <div class="container">
+            <center><p id="message"></p></center>
+        </div>
         <center>
             <div class="container" style="max-width: 600px;">
                 <table class="table table-striped" id="favouriteTable">
