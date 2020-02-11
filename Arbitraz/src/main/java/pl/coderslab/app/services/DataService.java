@@ -10,6 +10,7 @@ import pl.coderslab.app.model.Exchange;
 import pl.coderslab.app.model.ExchangeCoin;
 import pl.coderslab.app.model.Favourite;
 
+
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
