@@ -21,4 +21,12 @@ public class CoinService {
     public Coin getCoinByName(String name){
         return coinRepository.findAllByCoinName(name);
     }
+    public void addNewCoin( String coinName){
+        Coin coin = new Coin();
+        coin.setCoinName(coinName);
+        coinRepository.save(coin);
+    }
+    public Coin getCoinById(Long id){
+        return coinRepository.findCoinById(id);
+    }
 }

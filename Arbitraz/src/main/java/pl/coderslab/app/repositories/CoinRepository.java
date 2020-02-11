@@ -7,4 +7,5 @@ import pl.coderslab.app.model.Exchange;
 public interface CoinRepository extends JpaRepository<Coin,Long> {
     Exchange findAllById(Long id);
     Coin findAllByCoinName(String coinName);
+    Coin findCoinById(Long id);
 }

@@ -66,9 +66,11 @@ document.addEventListener('DOMContentLoaded', function () {
             var row = table.insertRow(favouriteTable.length);
             var cell1 = row.insertCell(0);
             var cell2 = row.insertCell(1);
+            var message = document.getElementById("message");
+            message.innerText = "Poprawnie dodano do ulubionych";
             cell1.innerHTML = data1 + ' | ' + data2 + ' | ' + data3;
             cell2.innerHTML = '<a role="button"  class="btn btn-link" id="dasboardButton"\n' +
-                '                                   href="'+ saveButton.value +'dashboard/delfavourite/'+response+'">\n' +
+                '                                   href="'+ saveButton.value +'delfavourite/'+response+'">\n' +
                 '                                    <i class="fas fa-trash" style="color: grey"></i>\n' +
                 '                                </a>';
         })

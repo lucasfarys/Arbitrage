@@ -40,6 +40,9 @@
         <center>
             <button type="button" class="btn btn-dark" style="min-width: 200px" id="saveButton" value="${mainUrl}">Dodaj</button>
         </center><br><br>
+        <div class="container">
+            <center><p id="message"></p></center>
+        </div>
         <center>
             <div class="container" style="max-width: 600px;">
                 <table class="table table-striped" id="favouriteTable">
@@ -56,7 +59,7 @@
                                  | ${favourite.coin.coinName}</td>
                             <td>
                                 <a role="button"  class="btn btn-link" id="dasboardButton"
-                                   href="${mainUrl}dashboard/delfavourite/${favourite.id}">
+                                   href="${mainUrl}delfavourite/${favourite.id}">
                                     <i class="fas fa-trash" style="color: grey"></i>
                                 </a>
                             </td>

@@ -48,4 +48,7 @@ public class DataCoinService {
     public Double test(Long id) {
         return dataCoinRepository.test(id);
     }
+    public List<DataCoin> getLastAddedCoins(){
+        return dataCoinRepository.findFirst24AllByOrderByCreatedDesc();
+    }
 }
