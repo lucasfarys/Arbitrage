@@ -91,7 +91,6 @@ public class ChartRestController {
         }
 
 
-//        Collections.reverse(dataDifference);
 
         json.put("chartFirst",dataFirst);
         json.put("chartSecond",dataSecond);

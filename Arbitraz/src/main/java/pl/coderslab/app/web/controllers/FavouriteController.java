@@ -44,7 +44,6 @@ public class FavouriteController {
     }
     @GetMapping("/delfavourite/{id}")
     public String deleteFavourite(@PathVariable Long id){
-        System.out.println(id);
         favouriteService.deleteFavouriteById(id);
         return "redirect:/dashboard/addfavourite";
     }
