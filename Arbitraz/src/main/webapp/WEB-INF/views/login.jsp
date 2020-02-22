@@ -34,7 +34,7 @@
         </div>
         <form:errors path="*"/>
     </div>
-</form:form>
+    </form:form>
 </body>
 <jsp:include page="footer.jsp"></jsp:include>
 </html>

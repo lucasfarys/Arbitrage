@@ -1,7 +1,11 @@
 document.addEventListener('DOMContentLoaded', function () {
     var exchange = document.getElementById("exchangeSelected");
+    var chart1;
+    var chart2;
     exchange.addEventListener("change", function (ev) {
         var exchangeSelected = exchange.options[exchange.selectedIndex].text;
+
+
         // two chart on change
 
         $.ajax({
@@ -15,11 +19,15 @@ document.addEventListener('DOMContentLoaded', function () {
             var ctx = document.getElementById('myChart').getContext('2d');
             var dataFirst = result.chartFirst;
             var dataSecond = result.chartSecond;
+            ctx = document.getElementById("myChart").getContext('2d');
             var date = [];
             for(var i=0;i<24;i++){
                 date.push()
             }
-            var chart = new Chart(ctx, {
+            if(chart1!=null){
+                chart1.destroy();
+            }
+            chart1 = new Chart(ctx, {
                 // The type of chart we want to create
                 type: 'line',
                 // The data for our dataset
@@ -34,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             fill: false
                         },
                         {
-                            label: result.nameSecond,
+                            label: (result.nameSecond + result.satoshi),
                             backgroundColor: 'rgb(100, 99, 132)',
                             borderColor: 'rgb(120, 120, 120)',
                             data: result.chartSecond,
@@ -42,28 +50,25 @@ document.addEventListener('DOMContentLoaded', function () {
                         }]
                 },
                 //Configuration options go here
-                options: {
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                min: minDefault,
-                                max: maxDefault
-                            }
-                        }]
-                    }
-                }
+                // options: {
+                //     scales: {
+                //         yAxes: [{
+                //             ticks: {
+                //                 min: minDefault,
+                //                 max: maxDefault
+                //             }
+                //         }]
+                //     }
+                // }
             });
-            dataFirst.sort();
-            dataSecond.sort();
-            var minDefault = Math.min(dataFirst[0],dataFirst[0]);
-            var maxDefault = Math.max(dataFirst[dataFirst.length-1],dataSecond[dataSecond.length-1]);
-
-
 
             // difference chart
             var ctx2 = document.getElementById('myChartDifference').getContext('2d');
             var dataDifference = result.chartDifference;
-            var chart2 = new Chart(ctx2, {
+            if(chart2 != null){
+                chart2.destroy();
+            }
+            chart2 = new Chart(ctx2, {
                 // The type of chart we want to create
                 type: 'line',
                 // The data for our dataset
@@ -78,21 +83,21 @@ document.addEventListener('DOMContentLoaded', function () {
                             fill: false
                         }]
                 },
-                //Configuration options go here
-                options: {
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                min: minDifferenceDefault,
-                                max: maifferenceDefault
-                            }
-                        }]
-                    }
-                }
+                // //Configuration options go here
+                // options: {
+                //     scales: {
+                //         yAxes: [{
+                //             ticks: {
+                //                 min: minDifferenceDefault,
+                //                 max: maifferenceDefault
+                //             }
+                //         }]
+                //     }
+                // }
             });
-            dataDifference.sort();
-            var minDifferenceDefault = dataDifference[0];
-            var maifferenceDefault = dataDifference[dataDifference.length-1];
+            // dataDifference.sort();
+            // var minDifferenceDefault = dataDifference[0];
+            // var maifferenceDefault = dataDifference[dataDifference.length-1];
         }).fail(function (xhr, status, err) {
         }).always(function (xhr, status) {
         });
@@ -114,7 +119,10 @@ document.addEventListener('DOMContentLoaded', function () {
         for(var i=0;i<24;i++){
             date.push()
         }
-        var chart = new Chart(ctx, {
+        if(chart1!= null){
+            chart1.destroy();
+        }
+        chart1 = new Chart(ctx, {
             // The type of chart we want to create
             type: 'line',
             // The data for our dataset
@@ -129,7 +137,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         fill: false
                     },
                     {
-                    label: result.nameSecond,
+                    label: (result.nameSecond + result.satoshi),
                     backgroundColor: 'rgb(100, 99, 132)',
                     borderColor: 'rgb(120, 120, 120)',
                     data: result.chartSecond,
@@ -137,28 +145,25 @@ document.addEventListener('DOMContentLoaded', function () {
                 }]
             },
             //Configuration options go here
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            min: minDefault,
-                            max: maxDefault
-                        }
-                    }]
-                }
-            }
+            // options: {
+            //     scales: {
+            //         yAxes: [{
+            //             ticks: {
+            //                 min: result.minDefault,
+            //                 max: 32610
+            //             }
+            //         }]
+            //     }
+            // }
         });
-        dataFirst.sort();
-        dataSecond.sort();
-        var minDefault = Math.min(dataFirst[0],dataFirst[0]);
-        var maxDefault = Math.max(dataFirst[dataFirst.length-1],dataSecond[dataSecond.length-1]);
 
-
-
-        // difference chart
+    //     // difference chart
         var ctx2 = document.getElementById('myChartDifference').getContext('2d');
         var dataDifference = result.chartDifference;
-        var chart2 = new Chart(ctx2, {
+        if(chart2!=null){
+            chart2.destroy();
+        }
+        chart2= new Chart(ctx2, {
             // The type of chart we want to create
             type: 'line',
             // The data for our dataset
@@ -174,23 +179,20 @@ document.addEventListener('DOMContentLoaded', function () {
                     }]
             },
             //Configuration options go here
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            min: minDifferenceDefault,
-                            max: maifferenceDefault
-                        }
-                    }]
-                }
-            }
+            // options: {
+            //     scales: {
+            //         yAxes: [{
+            //             ticks: {
+            //                 min: result.minDifference,
+            //                 max: result.maxDifference
+            //             }
+            //         }]
+            //     }
+            // }
         });
-        dataDifference.sort();
-        var minDifferenceDefault = dataDifference[0];
-        var maifferenceDefault = dataDifference[dataDifference.length-1];
     }).fail(function (xhr, status, err) {
     }).always(function (xhr, status) {
-    });
+        });
 });
 
 

@@ -1,16 +1,16 @@
 package pl.coderslab.app.dto;
 
+import pl.coderslab.app.model.Coin;
+import pl.coderslab.app.model.Exchange;
+
 import java.util.Objects;
 
 public class FavouriteFormDTO {
     private Long id;
     private String login;
-    private String exchange_first;
-    private String exchange_second;
-    private String coin;
-
-    public FavouriteFormDTO() {
-    }
+    private Exchange exchangeFirst;
+    private Exchange ExchangeSecond;
+    private Coin coin;
 
     public Long getId() {
         return id;
@@ -28,28 +28,28 @@ public class FavouriteFormDTO {
         this.login = login;
     }
 
-    public String getCoin() {
+    public Exchange getExchangeFirst() {
+        return exchangeFirst;
+    }
+
+    public void setExchangeFirst(Exchange exchangeFirst) {
+        this.exchangeFirst = exchangeFirst;
+    }
+
+    public Exchange getExchangeSecond() {
+        return ExchangeSecond;
+    }
+
+    public void setExchangeSecond(Exchange exchangeSecond) {
+        ExchangeSecond = exchangeSecond;
+    }
+
+    public Coin getCoin() {
         return coin;
     }
 
-    public void setCoin(String coin) {
+    public void setCoin(Coin coin) {
         this.coin = coin;
-    }
-
-    public String getExchange_first() {
-        return exchange_first;
-    }
-
-    public void setExchange_first(String exchange_first) {
-        this.exchange_first = exchange_first;
-    }
-
-    public String getExchange_second() {
-        return exchange_second;
-    }
-
-    public void setExchange_second(String exchange_second) {
-        this.exchange_second = exchange_second;
     }
 
     @Override
@@ -57,26 +57,11 @@ public class FavouriteFormDTO {
         if (this == o) return true;
         if (!(o instanceof FavouriteFormDTO)) return false;
         FavouriteFormDTO that = (FavouriteFormDTO) o;
-        return Objects.equals(getId(), that.getId()) &&
-                Objects.equals(getLogin(), that.getLogin()) &&
-                Objects.equals(getExchange_first(), that.getExchange_first()) &&
-                Objects.equals(getExchange_second(), that.getExchange_second()) &&
-                Objects.equals(getCoin(), that.getCoin());
+        return Objects.equals(getId(), that.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getLogin(), getExchange_first(), getExchange_second(), getCoin());
-    }
-
-    @Override
-    public String toString() {
-        return "FavouriteFormDTO{" +
-                "id=" + id +
-                ", login='" + login + '\'' +
-                ", exchange_first='" + exchange_first + '\'' +
-                ", exchange_second='" + exchange_second + '\'' +
-                ", coin='" + coin + '\'' +
-                '}';
+        return Objects.hash(getId());
     }
 }

@@ -5,18 +5,19 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "favourite")
+@Table(name = "favourites")
 public class Favourite {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String login;
-    private String exchange_first;
-    private String exchange_second;
-    private String coin;
 
-    public Favourite() {
-    }
+    @ManyToOne
+    private Coin coin;
+    @ManyToOne
+    private Exchange exchangeFirst;
+    @ManyToOne
+    private Exchange exchangeSecond;
 
     public Long getId() {
         return id;
@@ -34,28 +35,28 @@ public class Favourite {
         this.login = login;
     }
 
-    public String getCoin() {
+    public Coin getCoin() {
         return coin;
     }
 
-    public void setCoin(String coin) {
+    public void setCoin(Coin coin) {
         this.coin = coin;
     }
 
-    public String getExchange_first() {
-        return exchange_first;
+    public Exchange getExchangeFirst() {
+        return exchangeFirst;
     }
 
-    public void setExchange_first(String exchange_first) {
-        this.exchange_first = exchange_first;
+    public void setExchangeFirst(Exchange exchangeFirst) {
+        this.exchangeFirst = exchangeFirst;
     }
 
-    public String getExchange_second() {
-        return exchange_second;
+    public Exchange getExchangeSecond() {
+        return exchangeSecond;
     }
 
-    public void setExchange_second(String exchange_second) {
-        this.exchange_second = exchange_second;
+    public void setExchangeSecond(Exchange exchangeSecond) {
+        this.exchangeSecond = exchangeSecond;
     }
 
     @Override
@@ -63,26 +64,11 @@ public class Favourite {
         if (this == o) return true;
         if (!(o instanceof Favourite)) return false;
         Favourite favourite = (Favourite) o;
-        return Objects.equals(getId(), favourite.getId()) &&
-                Objects.equals(getLogin(), favourite.getLogin()) &&
-                Objects.equals(getExchange_first(), favourite.getExchange_first()) &&
-                Objects.equals(getExchange_second(), favourite.getExchange_second()) &&
-                Objects.equals(getCoin(), favourite.getCoin());
+        return Objects.equals(getId(), favourite.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getLogin(), getExchange_first(), getExchange_second(), getCoin());
-    }
-
-    @Override
-    public String toString() {
-        return "Favourite{" +
-                "id=" + id +
-                ", login='" + login + '\'' +
-                ", exchange_first='" + exchange_first + '\'' +
-                ", exchange_second='" + exchange_second + '\'' +
-                ", coin='" + coin + '\'' +
-                '}';
+        return Objects.hash(getId());
     }
 }
