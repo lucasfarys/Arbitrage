@@ -18,4 +18,6 @@ public interface DataCoinRepository extends JpaRepository<DataCoin,Long> {
     @Query(nativeQuery = true,value = "SELECT value from dataCoins where id=?")
     Double test(Long id);
 
+    DataCoin findFirstByExchangeCoinIdOrderByCreatedDesc(Long id);
+
 }

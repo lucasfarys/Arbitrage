@@ -4,6 +4,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import pl.coderslab.app.dto.CoinsListDTO;
 import pl.coderslab.app.model.*;
 import pl.coderslab.app.services.*;
 
@@ -64,51 +65,11 @@ public class FavouriteController {
     public String prepareCompareAllCoins(Model model){
         Principal principal = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByEmail(principal.getName());
-        List<DataCoin> dataCoins = dataCoinService.getLastAddedCoins();
         List<Exchange> exchanges = exchangeService.getExchanges();
-        List<String> coinNames = new ArrayList<>();
-        List<String> exchangeNamesFirst = new ArrayList<>();
-        List<String> exchangeNamesSecond = new ArrayList<>();
-        List<String> dataFirst = new ArrayList<>();
-        List<String> dataSecond = new ArrayList<>();
-        List<String> profit = new ArrayList<>();
-        for(Exchange exchangeFirst:exchanges){
-            for(Exchange exchangeSecond:exchanges){
-                if(exchangeFirst.getId()!=exchangeSecond.getId()){
-                    for(ExchangeCoin exchangeCoinFirst:exchangeFirst.getExchangeCoins()){
-                        for(ExchangeCoin exchangeCoinSecond:exchangeSecond.getExchangeCoins()){
-                            if(exchangeCoinFirst.getCoin().getCoinName()==exchangeCoinSecond.getCoin().getCoinName()){
-                                coinNames.add(exchangeCoinFirst.getCoin().getCoinName());
-                                exchangeNamesFirst.add(exchangeFirst.getName());
-                                Double ask = 0.0;
-                                Double bid = 0.0;
-                                for(DataCoin dataCoin:dataCoins){
-                                    if(dataCoin.getExchangeCoin().getId()==exchangeCoinFirst.getId()){
-                                        ask = dataCoin.getAsk();
-                                        dataFirst.add(String.format("%.8f",ask));
-                                    }
-                                    if(dataCoin.getExchangeCoin().getId()==exchangeCoinSecond.getId()){
-                                        bid = dataCoin.getBid();
-                                        dataSecond.add(String.format("%.8f",bid));
-                                    }
-                                }
-                                profit.add(String.format("%.2f",(ask/bid-1)*100));
-                                exchangeNamesSecond.add(exchangeSecond.getName());
-                            }
-                        }
-                    }
-                }
-            }
-
-        }
+        List<CoinsListDTO> coinList = dataCoinService.getCoins(exchanges);
         model.addAttribute("principal",principal);
         model.addAttribute("name",user.getFirstName());
-        model.addAttribute("coinNames",coinNames);
-        model.addAttribute("exchangeNamesFirst",exchangeNamesFirst);
-        model.addAttribute("exchangeNamesSecond",exchangeNamesSecond);
-        model.addAttribute("dataFirst",dataFirst);
-        model.addAttribute("dataSecond",dataSecond);
-        model.addAttribute("profit",profit);
+        model.addAttribute("coinList",coinList);
         return "compareAllCoins";
     }
 }

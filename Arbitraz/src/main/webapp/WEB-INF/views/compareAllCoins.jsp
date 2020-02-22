@@ -24,19 +24,19 @@
                 <th scope="col"></th>
                 <th scope="col">Sprzedaj</th>
                 <th scope="col">Cena</th>
-                <th scope="col">Zysk</th>
+                <th scope="col">Różnica</th>
             </tr>
             </thead>
             <tbody>
-                    <c:forEach var="coinName" items="${coinNames}" varStatus="loop">
+                    <c:forEach var="coin" items="${coinList}" varStatus="loop">
                         <tr>
-                            <td>${coinName}</td>
-                            <td>${exchangeNamesFirst.get(loop.count-1)}</td>
-                            <td>${dataFirst.get(loop.count-1)}</td>
+                            <td>${coin.coinName}</td>
+                            <td>${coin.nameExOne}</td>
+                            <td><fmt:formatNumber maxFractionDigits="8" value="${coin.valueCoinOne}"/></td>
                             <td><i class="fas fa-angle-double-right"></i></td>
-                            <td><center>${exchangeNamesSecond.get(loop.count-1)}</center></td>
-                            <td>${dataSecond.get(loop.count-1)}</td>
-                            <td>${profit.get(loop.count-1)} %</td>
+                            <td><center>${coin.nameExSecond}</center></td>
+                            <td><fmt:formatNumber maxFractionDigits="8" value="${coin.valueCoinSecond}"/></td>
+                            <td><fmt:formatNumber maxFractionDigits="2" value="${coin.profit}"/>%</td>
                         </tr>
                     </c:forEach>
             </tbody>

@@ -54,7 +54,6 @@ public class DataService {
         DataCoinDTO dataCoinDTO = new DataCoinDTO();
         JSONObject jsonObject = getJson(ex.getUniqueName(),exchange);
         dataCoinDTO.setExchangeCoin(ex);
-
         // for Bittrex
         if("Bittrex".equals(exchange.getName())) {
             dataCoinDTO.setAsk(jsonObject.getJSONObject("result").getDouble("Ask"));
@@ -70,6 +69,7 @@ public class DataService {
             dataCoinDTO.setAsk(jsonObject.getDouble("askPrice"));
             dataCoinDTO.setBid(jsonObject.getDouble("bidPrice"));
         }
+        // for Bitbay
         else if("Bitbay".equals(exchange.getName())){
             dataCoinDTO.setAsk(jsonObject.getDouble("ask"));
             dataCoinDTO.setBid(jsonObject.getDouble("bid"));
