@@ -15,3 +15,11 @@ Użyte technologie:
 - hibernate
 - HTML
 - Javascript
+
+# Rejestracja i login
+
+![Rejestracja_And_Login](img/register_and_login.gif)
+
+# Panel użytkownika
+
+![Dashboard](img/dashboard.gif)
