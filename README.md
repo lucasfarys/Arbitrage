@@ -1,8 +1,8 @@
-# Arbitraz
+# Arbitrage
 
-Projekt końcowy kursu CodersLab Autor: Łukasz Farys data 12.10.2019
 
-Aplikacja wspomagająca arbitraż kryptowalut.
+Aplikacja wspomagająca arbitraż kryptowalut. Dzięki publicznym API zostają pobrane dane kursów par walutowych z poszczególnych giełd. Następnie są zapisywane w bazie danych. Użytkownik ma możliwość analizowania wartości cen przedstawionyvh na wykresach, zostaje informowany o ich procentowej różnicy pomiędzy wybranymi giełdami.
+
 Elementy:
 - formularze logowania , rejestracji, konfiguracja wybranych kursów kryptowalut
 - zapisywanie do bazy danych cen kursów pobranych z różnych giełd
